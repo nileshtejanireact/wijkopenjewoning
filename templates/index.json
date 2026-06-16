@@ -244,6 +244,7 @@
         "ai_gen_block_3fb0681_dbRTCU",
         "button_wQqbyT"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -723,11 +724,77 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "178160265858bdd866": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_49c6179_tc4p3A": {
+          "type": "ai_gen_block_49c6179",
+          "settings": {
+            "title": "Waarom kiezen voor ons?",
+            "title_size": 36,
+            "title_color": "#023130",
+            "background_color": "#f1eeec",
+            "card_background": "#ffffff",
+            "card_border_radius": 12,
+            "icon_size": 32,
+            "icon_color": "#ffd13b",
+            "heading_size": 20,
+            "heading_color": "#023130",
+            "description_size": 14,
+            "description_color": "#023130",
+            "feature_1_title": "Binnen 24 Uur Een Bod",
+            "feature_1_description": "Ontvang snel een eerlijk bod op uw woning.",
+            "feature_2_title": "Geen Financieringsvoorbehoud",
+            "feature_2_description": "Zekerheid van verkoop zonder financieringsrisico.",
+            "feature_3_title": "Discrete Verkoop",
+            "feature_3_description": "Uw privacy staat bij ons voorop.",
+            "feature_4_title": "Geen Makelaarskosten",
+            "feature_4_description": "Bespaar duizenden euro's aan makelaarskosten.",
+            "feature_5_title": "Snelle Afhandeling",
+            "feature_5_description": "Verkoop uw woning in recordtijd.",
+            "feature_6_title": "Bouwval / Verbouwing",
+            "feature_6_description": "Ook woningen die verbouwd moeten worden kopen wij."
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_49c6179_tc4p3A"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 12,
+        "section_width": "full-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
     "hero_tknxJe",
     "1781518596d387e604",
+    "178160265858bdd866",
     "17815195800c49dfaa",
     "17815204329f84d971",
     "178152272353982750",
