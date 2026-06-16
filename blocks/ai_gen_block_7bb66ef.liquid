@@ -242,6 +242,19 @@
           </div>
         </div>
       {% endif %}
+      {% if block.settings.show_step_4 %}
+        <div class="working-method-step-{{ gen_id }}">
+          <div class="working-method-step-number-{{ gen_id }}">4</div>
+          <div class="working-method-step-content-{{ gen_id }}">
+            {% if block.settings.step_4_title != blank %}
+              <h3 class="working-method-step-title-{{ gen_id }}">{{ block.settings.step_4_title }}</h3>
+            {% endif %}
+            {% if block.settings.step_4_description != blank %}
+              <p class="working-method-step-description-{{ gen_id }}">{{ block.settings.step_4_description }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
 
       {% if block.settings.button_text != blank %}
         <a href="{{ block.settings.button_link }}" class="working-method-button-{{ gen_id }}">
@@ -390,6 +403,24 @@
     {
       "type": "textarea",
       "id": "step_3_description",
+      "label": "Description",
+      "default": "If you accept our offer, we will finalize the purchase. You determine the moving date."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_step_4",
+      "label": "Show step 4",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "step_4_title",
+      "label": "Title",
+      "default": "Sell your house and move when it suits you"
+    },
+    {
+      "type": "textarea",
+      "id": "step_4_description",
       "label": "Description",
       "default": "If you accept our offer, we will finalize the purchase. You determine the moving date."
     },
