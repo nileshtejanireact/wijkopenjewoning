@@ -30,7 +30,7 @@ cart-drawer-component.cart-drawer {
     gap: 16px;
 }
 a.inline-flex.items-center.justify-center.gap-2.whitespace-nowrap.rounded-md.text-sm.font-semibold.ring-offset-background.duration-200.focus-visible\:outline-none.focus-visible\:ring-2.focus-visible\:ring-ring.focus-visible\:ring-offset-2.disabled\:pointer-events-none.disabled\:opacity-50.\[\&_svg\]\:pointer-events-none.\[\&_svg\]\:size-4.\[\&_svg\]\:shrink-0.bg-accent.text-accent-foreground.hover\:bg-gold-dark.shadow-lg.hover\:shadow-xl.transition-shadow.h-10.px-4.py-2 {
-        background: #ffd13b;
+        background: #fc5900;
     color: #2e2b1e;
     font-family: Inter;
     font-weight: 700;
