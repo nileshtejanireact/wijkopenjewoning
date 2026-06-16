@@ -140,9 +140,9 @@
             "button_text_color": "#ffffff",
             "button_hover_bg_color": "#ffd13b",
             "button_border_radius": 6,
-            "feature_1": "Geen renovatie nodig",
-            "feature_2": "Geen verkoopkosten",
-            "feature_3": "Geen financieringsvoorbehoud",
+            "feature_1": "Binnen 24 uur reactie",
+            "feature_2": "Vrijblijvend",
+            "feature_3": "100% vertrouwelijk",
             "feature_text_color": "#333333",
             "checkmark_color": "#ffd13b"
           },
