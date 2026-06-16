@@ -1,0 +1,594 @@
+{% doc %}
+  @prompt
+    Create a "The benefits of selling directly" comparison section matching Huisunie.nl exactly.
+    
+    SECTION: Dark navy #0D2B5E background entire section, 80px padding.
+    
+    BLOCKS:
+    1. HEADING BLOCK: "The benefits of selling directly" large bold centered WHITE text
+    2. SUBHEADING BLOCK: "Compare Huisunie with selling through a real estate agent" centered light gray text
+    
+    3. LEFT CARD BLOCK - Huisunie: WHITE background card, 16px rounded, 32px padding. Top: house outline icon light blue #4A9FD4 + "huisunie" text dark navy bold large. Then 7 list items with BLUE FILLED CIRCLE checkmark icons: 1.Sell your home as is 2.A market-rate offer within 24 hours 3.Guaranteed sold without reservation 4.You decide when you move 5.No costs the agreed price is what you receive 6.Hidden defects are our risk 7.Peace clarity and certainty. Bottom: full-width dark navy button "Request a free offer" white text links to "/"
+    
+    4. RIGHT CARD BLOCK - Broker: Slightly lighter navy #1A3F73 background card, 16px rounded, 32px padding, white border. Top: "Broker" bold white large. Then 7 list items with RED OUTLINED CIRCLE X icons #EF4444: 1.Getting your house ready for sale fixing up tidying up cleaning 2.Endless viewings without certainty about the selling price 3.Buyers who back out due to a financing contingency or structural inspection 4.The buyer decides when you move 5.Spent thousands of euros on real estate agent and notary fees 6.Risk of problems later on due to hidden defects 7.A lot of hassle stress and uncertainty about the sale
+    
+    STYLING: Both cards equal height. Icons 20px circles. List items 15px line-height 1.6 gap 12px. var(--font-heading-family) var(--font-body-family). Do NOT use CSS class names with ai- prefix. Responsive: 2 cols desktop, 1 col mobile Huisunie first.
+{% enddoc %}
+{% assign gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .comparison-section-{{gen_id}} {
+    display: block;
+    background-color: {{ block.settings.section_background }};
+    padding: {{ block.settings.section_padding }}px 20px;
+    width: 100%;
+  }
+
+  .comparison-container-{{gen_id}} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .comparison-heading-{{gen_id}} {
+    font-family: var(--font-heading-family);
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: bold;
+    color: {{ block.settings.heading_color }};
+    text-align: center;
+    margin: 0 0 16px 0;
+  }
+
+  .comparison-subheading-{{gen_id}} {
+    font-family: var(--font-body-family);
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    text-align: center;
+    margin: 0 0 48px 0;
+  }
+
+  .comparison-cards-{{gen_id}} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .comparison-card-{{gen_id}} {
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comparison-card-huisunie-{{gen_id}} {
+    background-color: {{ block.settings.huisunie_bg }};
+    border: none;
+  }
+
+  .comparison-card-broker-{{gen_id}} {
+    background-color: {{ block.settings.broker_bg }};
+    border: 1px solid {{ block.settings.broker_border }};
+  }
+
+  .comparison-card-header-{{gen_id}} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .comparison-card-icon-{{gen_id}} {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .comparison-card-icon-{{gen_id}} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .comparison-card-title-{{gen_id}} {
+    font-family: var(--font-heading-family);
+    font-size: {{ block.settings.card_title_size }}px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .comparison-card-title-huisunie-{{gen_id}} {
+    color: {{ block.settings.huisunie_title_color }};
+  }
+
+  .comparison-card-title-broker-{{gen_id}} {
+    color: {{ block.settings.broker_title_color }};
+  }
+
+  .comparison-list-{{gen_id}} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+    flex-grow: 1;
+  }
+
+  .comparison-list-item-{{gen_id}} {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-family: var(--font-body-family);
+    font-size: {{ block.settings.list_item_size }}px;
+    line-height: 1.6;
+  }
+
+  .comparison-list-item-{{gen_id}}:last-child {
+    margin-bottom: 0;
+  }
+
+  .comparison-list-icon-{{gen_id}} {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .comparison-list-icon-{{gen_id}} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .comparison-list-text-huisunie-{{gen_id}} {
+    color: {{ block.settings.huisunie_text_color }};
+  }
+
+  .comparison-list-text-broker-{{gen_id}} {
+    color: {{ block.settings.broker_text_color }};
+  }
+
+  .comparison-button-{{gen_id}} {
+    display: block;
+    width: 100%;
+    padding: 16px 24px;
+    background-color: {{ block.settings.button_bg }};
+    color: {{ block.settings.button_text_color }};
+    text-align: center;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-family: var(--font-body-family);
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .comparison-button-{{gen_id}}:hover {
+    background-color: {{ block.settings.button_hover_bg }};
+  }
+
+  @media screen and (max-width: 768px) {
+    .comparison-cards-{{gen_id}} {
+      grid-template-columns: 1fr;
+    }
+
+    .comparison-heading-{{gen_id}} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.7);
+    }
+
+    .comparison-subheading-{{gen_id}} {
+      font-size: calc({{ block.settings.subheading_size }}px * 0.9);
+    }
+
+    .comparison-card-title-{{gen_id}} {
+      font-size: calc({{ block.settings.card_title_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<div class="comparison-section-{{gen_id}}" {{ block.shopify_attributes }}>
+  <div class="comparison-container-{{gen_id}}">
+    <h2 class="comparison-heading-{{gen_id}}">{{ block.settings.heading }}</h2>
+    <p class="comparison-subheading-{{gen_id}}">{{ block.settings.subheading }}</p>
+
+    <div class="comparison-cards-{{gen_id}}">
+      <div class="comparison-card-{{gen_id}} comparison-card-huisunie-{{gen_id}}">
+        <div class="comparison-card-header-{{gen_id}}">
+          <div class="comparison-card-icon-{{gen_id}}">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 5L5 15V35H15V25H25V35H35V15L20 5Z" stroke="{{ block.settings.huisunie_icon_color }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+          <h3 class="comparison-card-title-{{gen_id}} comparison-card-title-huisunie-{{gen_id}}">{{ block.settings.huisunie_title }}</h3>
+        </div>
+
+        <ul class="comparison-list-{{gen_id}}">
+          {% for i in (1..7) %}
+            {% assign item_key = 'huisunie_item_' | append: i %}
+            {% if block.settings[item_key] != blank %}
+              <li class="comparison-list-item-{{gen_id}}">
+                <div class="comparison-list-icon-{{gen_id}}">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="9" fill="{{ block.settings.huisunie_check_color }}"/>
+                    <path d="M6 10L9 13L14 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <span class="comparison-list-text-huisunie-{{gen_id}}">{{ block.settings[item_key] }}</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+
+        <a href="{{ block.settings.button_link }}" class="comparison-button-{{gen_id}}">
+          {{ block.settings.button_label }}
+        </a>
+      </div>
+
+      <div class="comparison-card-{{gen_id}} comparison-card-broker-{{gen_id}}">
+        <div class="comparison-card-header-{{gen_id}}">
+          <h3 class="comparison-card-title-{{gen_id}} comparison-card-title-broker-{{gen_id}}">{{ block.settings.broker_title }}</h3>
+        </div>
+
+        <ul class="comparison-list-{{gen_id}}">
+          {% for i in (1..7) %}
+            {% assign item_key = 'broker_item_' | append: i %}
+            {% if block.settings[item_key] != blank %}
+              <li class="comparison-list-item-{{gen_id}}">
+                <div class="comparison-list-icon-{{gen_id}}">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="9" stroke="{{ block.settings.broker_x_color }}" stroke-width="2" fill="none"/>
+                    <path d="M7 7L13 13M13 7L7 13" stroke="{{ block.settings.broker_x_color }}" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="comparison-list-text-broker-{{gen_id}}">{{ block.settings[item_key] }}</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Direct selling benefits",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Background color",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Padding",
+      "min": 40,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The benefits of selling directly"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Compare Huisunie with selling through a real estate agent"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#B0B0B0"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Padding",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Card title size",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "list_item_size",
+      "label": "List item size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Huisunie card"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_title",
+      "label": "Title",
+      "default": "huisunie"
+    },
+    {
+      "type": "color",
+      "id": "huisunie_bg",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "huisunie_title_color",
+      "label": "Title color",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "color",
+      "id": "huisunie_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "huisunie_icon_color",
+      "label": "Icon color",
+      "default": "#4A9FD4"
+    },
+    {
+      "type": "color",
+      "id": "huisunie_check_color",
+      "label": "Checkmark color",
+      "default": "#4A9FD4"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_item_1",
+      "label": "Item 1",
+      "default": "Sell your home as is"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_item_2",
+      "label": "Item 2",
+      "default": "A market-rate offer within 24 hours"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_item_3",
+      "label": "Item 3",
+      "default": "Guaranteed sold without reservation"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_item_4",
+      "label": "Item 4",
+      "default": "You decide when you move"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_item_5",
+      "label": "Item 5",
+      "default": "No costs the agreed price is what you receive"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_item_6",
+      "label": "Item 6",
+      "default": "Hidden defects are our risk"
+    },
+    {
+      "type": "text",
+      "id": "huisunie_item_7",
+      "label": "Item 7",
+      "default": "Peace clarity and certainty"
+    },
+    {
+      "type": "header",
+      "content": "Broker card"
+    },
+    {
+      "type": "text",
+      "id": "broker_title",
+      "label": "Title",
+      "default": "Broker"
+    },
+    {
+      "type": "color",
+      "id": "broker_bg",
+      "label": "Background color",
+      "default": "#1A3F73"
+    },
+    {
+      "type": "color",
+      "id": "broker_border",
+      "label": "Border color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "broker_title_color",
+      "label": "Title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "broker_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "broker_x_color",
+      "label": "X icon color",
+      "default": "#EF4444"
+    },
+    {
+      "type": "text",
+      "id": "broker_item_1",
+      "label": "Item 1",
+      "default": "Getting your house ready for sale fixing up tidying up cleaning"
+    },
+    {
+      "type": "text",
+      "id": "broker_item_2",
+      "label": "Item 2",
+      "default": "Endless viewings without certainty about the selling price"
+    },
+    {
+      "type": "text",
+      "id": "broker_item_3",
+      "label": "Item 3",
+      "default": "Buyers who back out due to a financing contingency or structural inspection"
+    },
+    {
+      "type": "text",
+      "id": "broker_item_4",
+      "label": "Item 4",
+      "default": "The buyer decides when you move"
+    },
+    {
+      "type": "text",
+      "id": "broker_item_5",
+      "label": "Item 5",
+      "default": "Spent thousands of euros on real estate agent and notary fees"
+    },
+    {
+      "type": "text",
+      "id": "broker_item_6",
+      "label": "Item 6",
+      "default": "Risk of problems later on due to hidden defects"
+    },
+    {
+      "type": "text",
+      "id": "broker_item_7",
+      "label": "Item 7",
+      "default": "A lot of hassle stress and uncertainty about the sale"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button text",
+      "default": "Request a free offer"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Background color",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Hover background color",
+      "default": "#0A1F45"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Direct selling benefits"
+    }
+  ]
+}
+{% endschema %}

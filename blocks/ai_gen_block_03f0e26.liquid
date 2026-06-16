@@ -1,0 +1,685 @@
+{% doc %}
+  @prompt
+    Regenerate "Experiences of homeowners" testimonials carousel. Previous version had two bugs: arrows not visible and dots not round. Fix these specifically.
+    
+    CRITICAL FIX 1 - ARROWS MUST BE VISIBLE:
+    - HTML button elements with explicit inline styles
+    - Width: 44px, Height: 44px, border-radius: 50%
+    - Background: #ffffff, Border: 2px solid #0D2B5E, Color: #0D2B5E
+    - Display: flex, align-items: center, justify-content: center
+    - Position: absolute, top: 50%, transform: translateY(-50%)
+    - Left arrow: left: -22px, Right arrow: right: -22px
+    - Z-index: 10, cursor: pointer
+    - Use SVG chevron icons inside buttons
+    - NEVER hide with display:none or visibility:hidden
+    
+    CRITICAL FIX 2 - DOTS MUST BE PERFECT CIRCLES:
+    - Each dot: width: 10px, height: 10px, border-radius: 50% explicitly
+    - Display: inline-block
+    - Active: background #0D2B5E, no border
+    - Inactive: transparent bg, 2px solid #0D2B5E border
+    - Gap: 8px, container: flex, justify-content: center, margin-top: 24px
+    
+    KEEP SAME:
+    - Section bg #F5F0EB, centered Rated 9.5 gold stars top, large bold centered heading "Experiences of homeowners" dark navy
+    - 4 white review cards: rounded, shadow, gold stars, review text, navy avatar circle white initial, bold name, gray location
+    - Card1: S Sarah Johnson New York - Card2: M Michael Chen San Francisco - Card3: E Emma Williams London - Card4: D David Martinez Miami
+    - Infinite loop via cloned slides, auto-play 5s, pause on hover, touch swipe mobile
+    - 4 cards desktop, 2 tablet, 1 mobile
+    - Each card separate schema block
+    - var(--font-heading-family) and var(--font-body-family)
+    - No ai- class names, vanilla JS only
+{% enddoc %}
+{% assign gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .testimonials-carousel-{{gen_id}} {
+    display: block;
+    background-color: #F5F0EB;
+    padding: 60px 20px;
+    width: 100%;
+  }
+
+  .testimonials-carousel-container-{{gen_id}} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonials-carousel-rating-{{gen_id}} {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .testimonials-carousel-rating-text-{{gen_id}} {
+    font-family: var(--font-body-family);
+    font-size: 14px;
+    color: #0D2B5E;
+    margin-bottom: 8px;
+  }
+
+  .testimonials-carousel-stars-{{gen_id}} {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .testimonials-carousel-star-{{gen_id}} {
+    width: 20px;
+    height: 20px;
+    fill: #FFD700;
+  }
+
+  .testimonials-carousel-heading-{{gen_id}} {
+    font-family: var(--font-heading-family);
+    font-size: 48px;
+    font-weight: 700;
+    color: #0D2B5E;
+    text-align: center;
+    margin: 0 0 40px 0;
+  }
+
+  .testimonials-carousel-wrapper-{{gen_id}} {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonials-carousel-track-container-{{gen_id}} {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .testimonials-carousel-track-{{gen_id}} {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.5s ease;
+  }
+
+  .testimonials-carousel-card-{{gen_id}} {
+    flex: 0 0 calc(25% - 18px);
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .testimonials-carousel-card-stars-{{gen_id}} {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .testimonials-carousel-card-star-{{gen_id}} {
+    width: 16px;
+    height: 16px;
+    fill: #FFD700;
+  }
+
+  .testimonials-carousel-card-text-{{gen_id}} {
+    font-family: var(--font-body-family);
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333333;
+    margin-bottom: 20px;
+  }
+
+  .testimonials-carousel-card-author-{{gen_id}} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .testimonials-carousel-card-avatar-{{gen_id}} {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #0D2B5E;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body-family);
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .testimonials-carousel-card-author-info-{{gen_id}} {
+    flex: 1;
+  }
+
+  .testimonials-carousel-card-author-name-{{gen_id}} {
+    font-family: var(--font-body-family);
+    font-weight: 700;
+    font-size: 14px;
+    color: #0D2B5E;
+    margin: 0 0 4px 0;
+  }
+
+  .testimonials-carousel-card-author-location-{{gen_id}} {
+    font-family: var(--font-body-family);
+    font-size: 12px;
+    color: #999999;
+    margin: 0;
+  }
+
+  .testimonials-carousel-arrow-{{gen_id}} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #0D2B5E;
+    color: #0D2B5E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .testimonials-carousel-arrow-{{gen_id}}:hover {
+    background: #0D2B5E;
+    color: #ffffff;
+  }
+
+  .testimonials-carousel-arrow-left-{{gen_id}} {
+    left: -22px;
+  }
+
+  .testimonials-carousel-arrow-right-{{gen_id}} {
+    right: -22px;
+  }
+
+  .testimonials-carousel-arrow-icon-{{gen_id}} {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .testimonials-carousel-dots-{{gen_id}} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .testimonials-carousel-dot-{{gen_id}} {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid #0D2B5E;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .testimonials-carousel-dot-{{gen_id}}.active {
+    background: #0D2B5E;
+    border: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    .testimonials-carousel-card-{{gen_id}} {
+      flex: 0 0 calc(50% - 12px);
+    }
+
+    .testimonials-carousel-heading-{{gen_id}} {
+      font-size: 36px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .testimonials-carousel-card-{{gen_id}} {
+      flex: 0 0 100%;
+    }
+
+    .testimonials-carousel-heading-{{gen_id}} {
+      font-size: 28px;
+    }
+
+    .testimonials-carousel-arrow-{{gen_id}} {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<testimonials-carousel-{{gen_id}} class="testimonials-carousel-{{gen_id}}" {{ block.shopify_attributes }}>
+  <div class="testimonials-carousel-container-{{gen_id}}">
+    <div class="testimonials-carousel-rating-{{gen_id}}">
+      <div class="testimonials-carousel-rating-text-{{gen_id}}">Rated 9.5</div>
+      <div class="testimonials-carousel-stars-{{gen_id}}">
+        {% for i in (1..5) %}
+          <svg class="testimonials-carousel-star-{{gen_id}}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        {% endfor %}
+      </div>
+    </div>
+
+    <h2 class="testimonials-carousel-heading-{{gen_id}}">Experiences of homeowners</h2>
+
+    <div class="testimonials-carousel-wrapper-{{gen_id}}">
+      <button 
+        class="testimonials-carousel-arrow-{{gen_id}} testimonials-carousel-arrow-left-{{gen_id}}"
+        aria-label="Previous testimonial"
+        data-direction="prev"
+      >
+        <svg class="testimonials-carousel-arrow-icon-{{gen_id}}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="testimonials-carousel-track-container-{{gen_id}}">
+        <div class="testimonials-carousel-track-{{gen_id}}">
+          <div class="testimonials-carousel-card-{{gen_id}}">
+            <div class="testimonials-carousel-card-stars-{{gen_id}}">
+              {% for i in (1..5) %}
+                <svg class="testimonials-carousel-card-star-{{gen_id}}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              {% endfor %}
+            </div>
+            <p class="testimonials-carousel-card-text-{{gen_id}}">{{ block.settings.review_text_1 }}</p>
+            <div class="testimonials-carousel-card-author-{{gen_id}}">
+              <div class="testimonials-carousel-card-avatar-{{gen_id}}">{{ block.settings.author_initial_1 }}</div>
+              <div class="testimonials-carousel-card-author-info-{{gen_id}}">
+                <p class="testimonials-carousel-card-author-name-{{gen_id}}">{{ block.settings.author_name_1 }}</p>
+                <p class="testimonials-carousel-card-author-location-{{gen_id}}">{{ block.settings.author_location_1 }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonials-carousel-card-{{gen_id}}">
+            <div class="testimonials-carousel-card-stars-{{gen_id}}">
+              {% for i in (1..5) %}
+                <svg class="testimonials-carousel-card-star-{{gen_id}}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              {% endfor %}
+            </div>
+            <p class="testimonials-carousel-card-text-{{gen_id}}">{{ block.settings.review_text_2 }}</p>
+            <div class="testimonials-carousel-card-author-{{gen_id}}">
+              <div class="testimonials-carousel-card-avatar-{{gen_id}}">{{ block.settings.author_initial_2 }}</div>
+              <div class="testimonials-carousel-card-author-info-{{gen_id}}">
+                <p class="testimonials-carousel-card-author-name-{{gen_id}}">{{ block.settings.author_name_2 }}</p>
+                <p class="testimonials-carousel-card-author-location-{{gen_id}}">{{ block.settings.author_location_2 }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonials-carousel-card-{{gen_id}}">
+            <div class="testimonials-carousel-card-stars-{{gen_id}}">
+              {% for i in (1..5) %}
+                <svg class="testimonials-carousel-card-star-{{gen_id}}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              {% endfor %}
+            </div>
+            <p class="testimonials-carousel-card-text-{{gen_id}}">{{ block.settings.review_text_3 }}</p>
+            <div class="testimonials-carousel-card-author-{{gen_id}}">
+              <div class="testimonials-carousel-card-avatar-{{gen_id}}">{{ block.settings.author_initial_3 }}</div>
+              <div class="testimonials-carousel-card-author-info-{{gen_id}}">
+                <p class="testimonials-carousel-card-author-name-{{gen_id}}">{{ block.settings.author_name_3 }}</p>
+                <p class="testimonials-carousel-card-author-location-{{gen_id}}">{{ block.settings.author_location_3 }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonials-carousel-card-{{gen_id}}">
+            <div class="testimonials-carousel-card-stars-{{gen_id}}">
+              {% for i in (1..5) %}
+                <svg class="testimonials-carousel-card-star-{{gen_id}}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              {% endfor %}
+            </div>
+            <p class="testimonials-carousel-card-text-{{gen_id}}">{{ block.settings.review_text_4 }}</p>
+            <div class="testimonials-carousel-card-author-{{gen_id}}">
+              <div class="testimonials-carousel-card-avatar-{{gen_id}}">{{ block.settings.author_initial_4 }}</div>
+              <div class="testimonials-carousel-card-author-info-{{gen_id}}">
+                <p class="testimonials-carousel-card-author-name-{{gen_id}}">{{ block.settings.author_name_4 }}</p>
+                <p class="testimonials-carousel-card-author-location-{{gen_id}}">{{ block.settings.author_location_4 }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        class="testimonials-carousel-arrow-{{gen_id}} testimonials-carousel-arrow-right-{{gen_id}}"
+        aria-label="Next testimonial"
+        data-direction="next"
+      >
+        <svg class="testimonials-carousel-arrow-icon-{{gen_id}}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="testimonials-carousel-dots-{{gen_id}}"></div>
+  </div>
+</testimonials-carousel-{{gen_id}}>
+
+<script>
+(function() {
+  class TestimonialsCarousel{{gen_id}} extends HTMLElement {
+    constructor() {
+      super();
+      this.currentIndex = 0;
+      this.autoplayInterval = null;
+      this.isTransitioning = false;
+    }
+
+    connectedCallback() {
+      this.track = this.querySelector('.testimonials-carousel-track-{{gen_id}}');
+      this.cards = Array.from(this.querySelectorAll('.testimonials-carousel-card-{{gen_id}}'));
+      this.dotsContainer = this.querySelector('.testimonials-carousel-dots-{{gen_id}}');
+      this.prevButton = this.querySelector('.testimonials-carousel-arrow-left-{{gen_id}}');
+      this.nextButton = this.querySelector('.testimonials-carousel-arrow-right-{{gen_id}}');
+
+      if (this.cards.length === 0) return;
+
+      this.cloneSlides();
+      this.createDots();
+      this.setupEventListeners();
+      this.updateCarousel(false);
+      this.startAutoplay();
+    }
+
+    cloneSlides() {
+      const cardsPerView = this.getCardsPerView();
+      const clonesToAdd = Math.max(cardsPerView, this.cards.length);
+
+      for (let i = 0; i < clonesToAdd; i++) {
+        const cloneStart = this.cards[i].cloneNode(true);
+        const cloneEnd = this.cards[this.cards.length - 1 - i].cloneNode(true);
+        this.track.appendChild(cloneStart);
+        this.track.insertBefore(cloneEnd, this.track.firstChild);
+      }
+
+      this.allSlides = Array.from(this.track.children);
+      this.currentIndex = clonesToAdd;
+    }
+
+    getCardsPerView() {
+      const width = window.innerWidth;
+      if (width <= 749) return 1;
+      if (width <= 989) return 2;
+      return 4;
+    }
+
+    createDots() {
+      const totalDots = this.cards.length;
+      for (let i = 0; i < totalDots; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'testimonials-carousel-dot-{{gen_id}}';
+        dot.addEventListener('click', () => this.goToSlide(i));
+        this.dotsContainer.appendChild(dot);
+      }
+      this.dots = Array.from(this.dotsContainer.children);
+    }
+
+    setupEventListeners() {
+      this.prevButton.addEventListener('click', () => this.navigate('prev'));
+      this.nextButton.addEventListener('click', () => this.navigate('next'));
+
+      this.addEventListener('mouseenter', () => this.stopAutoplay());
+      this.addEventListener('mouseleave', () => this.startAutoplay());
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      this.track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+
+      this.track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) {
+          this.navigate('next');
+        } else if (touchEndX - touchStartX > 50) {
+          this.navigate('prev');
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        this.updateCarousel(false);
+      });
+    }
+
+    navigate(direction) {
+      if (this.isTransitioning) return;
+
+      if (direction === 'next') {
+        this.currentIndex++;
+      } else {
+        this.currentIndex--;
+      }
+
+      this.updateCarousel(true);
+    }
+
+    goToSlide(index) {
+      if (this.isTransitioning) return;
+      const cardsPerView = this.getCardsPerView();
+      const clonesToAdd = Math.max(cardsPerView, this.cards.length);
+      this.currentIndex = index + clonesToAdd;
+      this.updateCarousel(true);
+    }
+
+    updateCarousel(animate) {
+      const cardsPerView = this.getCardsPerView();
+      const cardWidth = this.cards[0].offsetWidth;
+      const gap = 24;
+      const offset = -(this.currentIndex * (cardWidth + gap));
+
+      if (animate) {
+        this.isTransitioning = true;
+        this.track.style.transition = 'transform 0.5s ease';
+      } else {
+        this.track.style.transition = 'none';
+      }
+
+      this.track.style.transform = `translateX(${offset}px)`;
+
+      if (animate) {
+        setTimeout(() => {
+          this.handleInfiniteLoop();
+        }, 500);
+      }
+
+      this.updateDots();
+    }
+
+    handleInfiniteLoop() {
+      const cardsPerView = this.getCardsPerView();
+      const clonesToAdd = Math.max(cardsPerView, this.cards.length);
+
+      if (this.currentIndex >= this.cards.length + clonesToAdd) {
+        this.currentIndex = clonesToAdd;
+        this.track.style.transition = 'none';
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = 24;
+        const offset = -(this.currentIndex * (cardWidth + gap));
+        this.track.style.transform = `translateX(${offset}px)`;
+      } else if (this.currentIndex < clonesToAdd) {
+        this.currentIndex = this.cards.length + clonesToAdd - 1;
+        this.track.style.transition = 'none';
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = 24;
+        const offset = -(this.currentIndex * (cardWidth + gap));
+        this.track.style.transform = `translateX(${offset}px)`;
+      }
+
+      this.isTransitioning = false;
+    }
+
+    updateDots() {
+      const cardsPerView = this.getCardsPerView();
+      const clonesToAdd = Math.max(cardsPerView, this.cards.length);
+      const actualIndex = (this.currentIndex - clonesToAdd + this.cards.length) % this.cards.length;
+
+      this.dots.forEach((dot, index) => {
+        if (index === actualIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    startAutoplay() {
+      this.stopAutoplay();
+      this.autoplayInterval = setInterval(() => {
+        this.navigate('next');
+      }, 5000);
+    }
+
+    stopAutoplay() {
+      if (this.autoplayInterval) {
+        clearInterval(this.autoplayInterval);
+        this.autoplayInterval = null;
+      }
+    }
+
+    disconnectedCallback() {
+      this.stopAutoplay();
+    }
+  }
+
+  customElements.define('testimonials-carousel-{{gen_id}}', TestimonialsCarousel{{gen_id}});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Experiences of homeowners",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Testimonial 1"
+    },
+    {
+      "type": "textarea",
+      "id": "review_text_1",
+      "label": "Review text",
+      "default": "This service exceeded all my expectations. The team was professional and delivered outstanding results."
+    },
+    {
+      "type": "text",
+      "id": "author_initial_1",
+      "label": "Author initial",
+      "default": "S"
+    },
+    {
+      "type": "text",
+      "id": "author_name_1",
+      "label": "Author name",
+      "default": "Sarah Johnson"
+    },
+    {
+      "type": "text",
+      "id": "author_location_1",
+      "label": "Author location",
+      "default": "New York"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 2"
+    },
+    {
+      "type": "textarea",
+      "id": "review_text_2",
+      "label": "Review text",
+      "default": "Absolutely fantastic experience from start to finish. I couldn't be happier with the outcome."
+    },
+    {
+      "type": "text",
+      "id": "author_initial_2",
+      "label": "Author initial",
+      "default": "M"
+    },
+    {
+      "type": "text",
+      "id": "author_name_2",
+      "label": "Author name",
+      "default": "Michael Chen"
+    },
+    {
+      "type": "text",
+      "id": "author_location_2",
+      "label": "Author location",
+      "default": "San Francisco"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 3"
+    },
+    {
+      "type": "textarea",
+      "id": "review_text_3",
+      "label": "Review text",
+      "default": "Highly professional and efficient. They made the entire process smooth and stress-free."
+    },
+    {
+      "type": "text",
+      "id": "author_initial_3",
+      "label": "Author initial",
+      "default": "E"
+    },
+    {
+      "type": "text",
+      "id": "author_name_3",
+      "label": "Author name",
+      "default": "Emma Williams"
+    },
+    {
+      "type": "text",
+      "id": "author_location_3",
+      "label": "Author location",
+      "default": "London"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 4"
+    },
+    {
+      "type": "textarea",
+      "id": "review_text_4",
+      "label": "Review text",
+      "default": "Outstanding quality and attention to detail. I would recommend this to anyone without hesitation."
+    },
+    {
+      "type": "text",
+      "id": "author_initial_4",
+      "label": "Author initial",
+      "default": "D"
+    },
+    {
+      "type": "text",
+      "id": "author_name_4",
+      "label": "Author name",
+      "default": "David Martinez"
+    },
+    {
+      "type": "text",
+      "id": "author_location_4",
+      "label": "Author location",
+      "default": "Miami"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Experiences of homeowners"
+    }
+  ]
+}
+{% endschema %}

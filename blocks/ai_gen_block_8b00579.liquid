@@ -1,0 +1,1125 @@
+{% doc %}
+  @prompt
+    Create a professional Dutch real estate "Bod Aanvragen" (Request an Offer) 6-step form section for a Shopify theme. The form should include:
+    
+    - A hero header with title "Vraag een bod aan op uw woning" and trust badges (Gratis, Vrijblijvend, Snel)
+    - A progress bar showing current step out of 6
+    - Step 1 - Adresgegevens: fields for straat, huisnummer, postcode, stad
+    - Step 2 - Woningtype: visual card options for vrijstaand, tussenwoning, hoekwoning, appartement, 2-onder-1-kapwoning
+    - Step 3 - Woningdetails: bouwjaar, woonoppervlakte (m²), aantal kamers, staat van de woning (dropdown)
+    - Step 4 - Situatie: why selling (card options: verhuizen, scheiding, financiële redenen, anders) and desired timeline
+    - Step 5 - Contactgegevens: naam, e-mailadres, telefoonnummer
+    - Step 6 - Bevestiging: summary of all entered data with a submit button
+    - Next/Previous navigation, form validation, Dutch language throughout
+    - On submission show a thank you message: "Wij nemen binnen 24 uur contact met u op"
+    - Professional blue/green color scheme typical of Dutch real estate
+    - Fully responsive/mobile-friendly design
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bod-form-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: {{ block.settings.background_color }};
+    padding: 40px;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-bod-form__hero-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-bod-form__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 20px;
+    font-weight: 600;
+  }
+
+  .ai-bod-form__badges-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .ai-bod-form__badge-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .ai-bod-form__badge-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ai-bod-form__progress-{{ ai_gen_id }} {
+    margin-bottom: 40px;
+  }
+
+  .ai-bod-form__progress-text-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 10px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+  }
+
+  .ai-bod-form__progress-bar-{{ ai_gen_id }} {
+    width: 100%;
+    height: 8px;
+    background-color: {{ block.settings.progress_bg_color }};
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .ai-bod-form__progress-fill-{{ ai_gen_id }} {
+    height: 100%;
+    background-color: {{ block.settings.progress_fill_color }};
+    transition: width 0.3s ease;
+  }
+
+  .ai-bod-form__step-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-bod-form__step-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-bod-form__step-title-{{ ai_gen_id }} {
+    font-size: 24px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 24px;
+    font-weight: 600;
+  }
+
+  .ai-bod-form__field-{{ ai_gen_id }} {
+    margin-bottom: 20px;
+  }
+
+  .ai-bod-form__label-{{ ai_gen_id }} {
+    display: block;
+    margin-bottom: 8px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .ai-bod-form__input-{{ ai_gen_id }},
+  .ai-bod-form__select-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: 16px;
+    background-color: {{ block.settings.input_bg_color }};
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bod-form__input-{{ ai_gen_id }}:focus,
+  .ai-bod-form__select-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.primary_color }};
+  }
+
+  .ai-bod-form__input-row-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .ai-bod-form__cards-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .ai-bod-form__card-{{ ai_gen_id }} {
+    padding: 20px;
+    border: 2px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: {{ block.settings.card_bg_color }};
+  }
+
+  .ai-bod-form__card-{{ ai_gen_id }}:hover {
+    border-color: {{ block.settings.primary_color }};
+    background-color: {{ block.settings.card_hover_bg_color }};
+  }
+
+  .ai-bod-form__card-{{ ai_gen_id }}.selected {
+    border-color: {{ block.settings.primary_color }};
+    background-color: {{ block.settings.card_selected_bg_color }};
+  }
+
+  .ai-bod-form__card-icon-{{ ai_gen_id }} {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    color: {{ block.settings.primary_color }};
+  }
+
+  .ai-bod-form__card-label-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    font-weight: 500;
+  }
+
+  .ai-bod-form__navigation-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .ai-bod-form__button-{{ ai_gen_id }} {
+    padding: 14px 32px;
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-bod-form__button-primary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.primary_color }};
+    color: {{ block.settings.button_text_color }};
+  }
+
+  .ai-bod-form__button-primary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.primary_hover_color }};
+  }
+
+  .ai-bod-form__button-secondary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.secondary_button_bg }};
+    color: {{ block.settings.text_color }};
+    border: 1px solid {{ block.settings.input_border_color }};
+  }
+
+  .ai-bod-form__button-secondary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.card_hover_bg_color }};
+  }
+
+  .ai-bod-form__summary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.summary_bg_color }};
+    padding: 24px;
+    border-radius: {{ block.settings.input_border_radius }}px;
+    margin-bottom: 24px;
+  }
+
+  .ai-bod-form__summary-item-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid {{ block.settings.input_border_color }};
+  }
+
+  .ai-bod-form__summary-item-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+
+  .ai-bod-form__summary-label-{{ ai_gen_id }} {
+    font-weight: 500;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bod-form__summary-value-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bod-form__thank-you-{{ ai_gen_id }} {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .ai-bod-form__thank-you-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-bod-form__thank-you-icon-{{ ai_gen_id }} {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    color: {{ block.settings.success_color }};
+  }
+
+  .ai-bod-form__thank-you-title-{{ ai_gen_id }} {
+    font-size: 32px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+
+  .ai-bod-form__thank-you-text-{{ ai_gen_id }} {
+    font-size: 18px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bod-form__error-{{ ai_gen_id }} {
+    color: {{ block.settings.error_color }};
+    font-size: 14px;
+    margin-top: 8px;
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bod-form-{{ ai_gen_id }} {
+      padding: 24px;
+    }
+
+    .ai-bod-form__input-row-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-bod-form__cards-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-bod-form__navigation-{{ ai_gen_id }} {
+      flex-direction: column-reverse;
+    }
+
+    .ai-bod-form__button-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-bod-form__badges-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+{% endstyle %}
+
+<bod-aanvragen-form-{{ ai_gen_id }} class="ai-bod-form-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-bod-form__hero-{{ ai_gen_id }}">
+    <h1 class="ai-bod-form__title-{{ ai_gen_id }}">{{ block.settings.form_title }}</h1>
+    <div class="ai-bod-form__badges-{{ ai_gen_id }}">
+      <div class="ai-bod-form__badge-{{ ai_gen_id }}">
+        <svg class="ai-bod-form__badge-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>{{ block.settings.badge_1_text }}</span>
+      </div>
+      <div class="ai-bod-form__badge-{{ ai_gen_id }}">
+        <svg class="ai-bod-form__badge-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>{{ block.settings.badge_2_text }}</span>
+      </div>
+      <div class="ai-bod-form__badge-{{ ai_gen_id }}">
+        <svg class="ai-bod-form__badge-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+        <span>{{ block.settings.badge_3_text }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-bod-form__progress-{{ ai_gen_id }}">
+    <div class="ai-bod-form__progress-text-{{ ai_gen_id }}">
+      Stap <span data-current-step>1</span> van 6
+    </div>
+    <div class="ai-bod-form__progress-bar-{{ ai_gen_id }}">
+      <div class="ai-bod-form__progress-fill-{{ ai_gen_id }}" data-progress-fill style="width: 16.66%;"></div>
+    </div>
+  </div>
+
+  {%- form 'contact' -%}
+    <input type="hidden" name="contact[form_type]" value="bod_aanvragen">
+
+    <div class="ai-bod-form__step-{{ ai_gen_id }} active" data-step="1">
+      <h2 class="ai-bod-form__step-title-{{ ai_gen_id }}">Adresgegevens</h2>
+      
+      <div class="ai-bod-form__field-{{ ai_gen_id }}">
+        <label class="ai-bod-form__label-{{ ai_gen_id }}" for="straat-{{ ai_gen_id }}">Straat *</label>
+        <input 
+          type="text" 
+          id="straat-{{ ai_gen_id }}" 
+          name="contact[straat]" 
+          class="ai-bod-form__input-{{ ai_gen_id }}" 
+          required
+          data-field="straat"
+        >
+      </div>
+
+      <div class="ai-bod-form__input-row-{{ ai_gen_id }}">
+        <div class="ai-bod-form__field-{{ ai_gen_id }}">
+          <label class="ai-bod-form__label-{{ ai_gen_id }}" for="huisnummer-{{ ai_gen_id }}">Huisnummer *</label>
+          <input 
+            type="text" 
+            id="huisnummer-{{ ai_gen_id }}" 
+            name="contact[huisnummer]" 
+            class="ai-bod-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="huisnummer"
+          >
+        </div>
+
+        <div class="ai-bod-form__field-{{ ai_gen_id }}">
+          <label class="ai-bod-form__label-{{ ai_gen_id }}" for="postcode-{{ ai_gen_id }}">Postcode *</label>
+          <input 
+            type="text" 
+            id="postcode-{{ ai_gen_id }}" 
+            name="contact[postcode]" 
+            class="ai-bod-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="postcode"
+          >
+        </div>
+      </div>
+
+      <div class="ai-bod-form__field-{{ ai_gen_id }}">
+        <label class="ai-bod-form__label-{{ ai_gen_id }}" for="stad-{{ ai_gen_id }}">Stad *</label>
+        <input 
+          type="text" 
+          id="stad-{{ ai_gen_id }}" 
+          name="contact[stad]" 
+          class="ai-bod-form__input-{{ ai_gen_id }}" 
+          required
+          data-field="stad"
+        >
+      </div>
+    </div>
+
+    <div class="ai-bod-form__step-{{ ai_gen_id }}" data-step="2">
+      <h2 class="ai-bod-form__step-title-{{ ai_gen_id }}">Woningtype</h2>
+      
+      <input type="hidden" name="contact[woningtype]" data-field="woningtype">
+      
+      <div class="ai-bod-form__cards-{{ ai_gen_id }}">
+        <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="vrijstaand">
+          <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Vrijstaand</div>
+        </div>
+
+        <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="tussenwoning">
+          <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+          <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Tussenwoning</div>
+        </div>
+
+        <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="hoekwoning">
+          <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Hoekwoning</div>
+        </div>
+
+        <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="appartement">
+          <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+          <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Appartement</div>
+        </div>
+
+        <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="2-onder-1-kap">
+          <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          <div class="ai-bod-form__card-label-{{ ai_gen_id }}">2-onder-1-kap</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-bod-form__step-{{ ai_gen_id }}" data-step="3">
+      <h2 class="ai-bod-form__step-title-{{ ai_gen_id }}">Woningdetails</h2>
+      
+      <div class="ai-bod-form__input-row-{{ ai_gen_id }}">
+        <div class="ai-bod-form__field-{{ ai_gen_id }}">
+          <label class="ai-bod-form__label-{{ ai_gen_id }}" for="bouwjaar-{{ ai_gen_id }}">Bouwjaar *</label>
+          <input 
+            type="text" 
+            id="bouwjaar-{{ ai_gen_id }}" 
+            name="contact[bouwjaar]" 
+            class="ai-bod-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="bouwjaar"
+          >
+        </div>
+
+        <div class="ai-bod-form__field-{{ ai_gen_id }}">
+          <label class="ai-bod-form__label-{{ ai_gen_id }}" for="oppervlakte-{{ ai_gen_id }}">Woonoppervlakte (m²) *</label>
+          <input 
+            type="text" 
+            id="oppervlakte-{{ ai_gen_id }}" 
+            name="contact[oppervlakte]" 
+            class="ai-bod-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="oppervlakte"
+          >
+        </div>
+      </div>
+
+      <div class="ai-bod-form__input-row-{{ ai_gen_id }}">
+        <div class="ai-bod-form__field-{{ ai_gen_id }}">
+          <label class="ai-bod-form__label-{{ ai_gen_id }}" for="kamers-{{ ai_gen_id }}">Aantal kamers *</label>
+          <input 
+            type="text" 
+            id="kamers-{{ ai_gen_id }}" 
+            name="contact[kamers]" 
+            class="ai-bod-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="kamers"
+          >
+        </div>
+
+        <div class="ai-bod-form__field-{{ ai_gen_id }}">
+          <label class="ai-bod-form__label-{{ ai_gen_id }}" for="staat-{{ ai_gen_id }}">Staat van de woning *</label>
+          <select 
+            id="staat-{{ ai_gen_id }}" 
+            name="contact[staat]" 
+            class="ai-bod-form__select-{{ ai_gen_id }}" 
+            required
+            data-field="staat"
+          >
+            <option value="">Selecteer...</option>
+            <option value="uitstekend">Uitstekend</option>
+            <option value="goed">Goed</option>
+            <option value="redelijk">Redelijk</option>
+            <option value="matig">Matig</option>
+            <option value="slecht">Slecht</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-bod-form__step-{{ ai_gen_id }}" data-step="4">
+      <h2 class="ai-bod-form__step-title-{{ ai_gen_id }}">Uw situatie</h2>
+      
+      <div class="ai-bod-form__field-{{ ai_gen_id }}">
+        <label class="ai-bod-form__label-{{ ai_gen_id }}">Waarom verkoopt u? *</label>
+        <input type="hidden" name="contact[reden]" data-field="reden">
+        
+        <div class="ai-bod-form__cards-{{ ai_gen_id }}">
+          <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="verhuizen">
+            <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+            </svg>
+            <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Verhuizen</div>
+          </div>
+
+          <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="scheiding">
+            <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Scheiding</div>
+          </div>
+
+          <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="financieel">
+            <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Financiële redenen</div>
+          </div>
+
+          <div class="ai-bod-form__card-{{ ai_gen_id }}" data-card-value="anders">
+            <svg class="ai-bod-form__card-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div class="ai-bod-form__card-label-{{ ai_gen_id }}">Anders</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-bod-form__field-{{ ai_gen_id }}">
+        <label class="ai-bod-form__label-{{ ai_gen_id }}" for="tijdlijn-{{ ai_gen_id }}">Gewenste tijdlijn *</label>
+        <select 
+          id="tijdlijn-{{ ai_gen_id }}" 
+          name="contact[tijdlijn]" 
+          class="ai-bod-form__select-{{ ai_gen_id }}" 
+          required
+          data-field="tijdlijn"
+        >
+          <option value="">Selecteer...</option>
+          <option value="zo-snel-mogelijk">Zo snel mogelijk</option>
+          <option value="1-3-maanden">Binnen 1-3 maanden</option>
+          <option value="3-6-maanden">Binnen 3-6 maanden</option>
+          <option value="6-maanden">Over 6+ maanden</option>
+          <option value="nog-onbekend">Nog onbekend</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ai-bod-form__step-{{ ai_gen_id }}" data-step="5">
+      <h2 class="ai-bod-form__step-title-{{ ai_gen_id }}">Contactgegevens</h2>
+      
+      <div class="ai-bod-form__field-{{ ai_gen_id }}">
+        <label class="ai-bod-form__label-{{ ai_gen_id }}" for="naam-{{ ai_gen_id }}">Naam *</label>
+        <input 
+          type="text" 
+          id="naam-{{ ai_gen_id }}" 
+          name="contact[naam]" 
+          class="ai-bod-form__input-{{ ai_gen_id }}" 
+          required
+          data-field="naam"
+        >
+      </div>
+
+      <div class="ai-bod-form__field-{{ ai_gen_id }}">
+        <label class="ai-bod-form__label-{{ ai_gen_id }}" for="email-{{ ai_gen_id }}">E-mailadres *</label>
+        <input 
+          type="email" 
+          id="email-{{ ai_gen_id }}" 
+          name="contact[email]" 
+          class="ai-bod-form__input-{{ ai_gen_id }}" 
+          required
+          data-field="email"
+        >
+      </div>
+
+      <div class="ai-bod-form__field-{{ ai_gen_id }}">
+        <label class="ai-bod-form__label-{{ ai_gen_id }}" for="telefoon-{{ ai_gen_id }}">Telefoonnummer *</label>
+        <input 
+          type="tel" 
+          id="telefoon-{{ ai_gen_id }}" 
+          name="contact[telefoon]" 
+          class="ai-bod-form__input-{{ ai_gen_id }}" 
+          required
+          data-field="telefoon"
+        >
+      </div>
+    </div>
+
+    <div class="ai-bod-form__step-{{ ai_gen_id }}" data-step="6">
+      <h2 class="ai-bod-form__step-title-{{ ai_gen_id }}">Bevestiging</h2>
+      
+      <div class="ai-bod-form__summary-{{ ai_gen_id }}">
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Adres:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="adres"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Woningtype:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="woningtype"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Bouwjaar:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="bouwjaar"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Oppervlakte:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="oppervlakte"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Aantal kamers:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="kamers"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Staat:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="staat"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Reden verkoop:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="reden"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Tijdlijn:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="tijdlijn"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Naam:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="naam"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">E-mail:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="email"></span>
+        </div>
+        <div class="ai-bod-form__summary-item-{{ ai_gen_id }}">
+          <span class="ai-bod-form__summary-label-{{ ai_gen_id }}">Telefoon:</span>
+          <span class="ai-bod-form__summary-value-{{ ai_gen_id }}" data-summary="telefoon"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-bod-form__navigation-{{ ai_gen_id }}" data-navigation>
+      <button type="button" class="ai-bod-form__button-{{ ai_gen_id }} ai-bod-form__button-secondary-{{ ai_gen_id }}" data-prev style="display: none;">
+        Vorige
+      </button>
+      <button type="button" class="ai-bod-form__button-{{ ai_gen_id }} ai-bod-form__button-primary-{{ ai_gen_id }}" data-next>
+        Volgende
+      </button>
+      <button type="submit" class="ai-bod-form__button-{{ ai_gen_id }} ai-bod-form__button-primary-{{ ai_gen_id }}" data-submit style="display: none;">
+        Verstuur aanvraag
+      </button>
+    </div>
+  {%- endform -%}
+
+  <div class="ai-bod-form__thank-you-{{ ai_gen_id }}" data-thank-you>
+    <svg class="ai-bod-form__thank-you-icon-{{ ai_gen_id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <h2 class="ai-bod-form__thank-you-title-{{ ai_gen_id }}">{{ block.settings.thank_you_title }}</h2>
+    <p class="ai-bod-form__thank-you-text-{{ ai_gen_id }}">{{ block.settings.thank_you_message }}</p>
+  </div>
+</bod-aanvragen-form-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class BodAanvragenForm{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentStep = 1;
+        this.totalSteps = 6;
+        this.formData = {};
+      }
+
+      connectedCallback() {
+        this.steps = this.querySelectorAll('[data-step]');
+        this.progressFill = this.querySelector('[data-progress-fill]');
+        this.currentStepText = this.querySelector('[data-current-step]');
+        this.prevButton = this.querySelector('[data-prev]');
+        this.nextButton = this.querySelector('[data-next]');
+        this.submitButton = this.querySelector('[data-submit]');
+        this.form = this.querySelector('form');
+        this.thankYou = this.querySelector('[data-thank-you]');
+        this.cards = this.querySelectorAll('.ai-bod-form__card-{{ ai_gen_id }}');
+
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.prevButton.addEventListener('click', () => this.goToPreviousStep());
+        this.nextButton.addEventListener('click', () => this.goToNextStep());
+        
+        this.cards.forEach(card => {
+          card.addEventListener('click', () => this.handleCardSelection(card));
+        });
+
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+      }
+
+      handleCardSelection(card) {
+        const step = card.closest('[data-step]');
+        const cards = step.querySelectorAll('.ai-bod-form__card-{{ ai_gen_id }}');
+        const hiddenInput = step.querySelector('input[type="hidden"]');
+        const value = card.getAttribute('data-card-value');
+
+        cards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+
+        if (hiddenInput) {
+          hiddenInput.value = value;
+        }
+      }
+
+      validateStep(stepNumber) {
+        const step = this.querySelector(`[data-step="${stepNumber}"]`);
+        const requiredInputs = step.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredInputs.forEach(input => {
+          if (!input.value.trim()) {
+            isValid = false;
+            input.style.borderColor = '{{ block.settings.error_color }}';
+          } else {
+            input.style.borderColor = '{{ block.settings.input_border_color }}';
+          }
+        });
+
+        return isValid;
+      }
+
+      goToNextStep() {
+        if (!this.validateStep(this.currentStep)) {
+          return;
+        }
+
+        this.saveStepData();
+
+        if (this.currentStep < this.totalSteps) {
+          this.currentStep++;
+          this.updateStep();
+        }
+      }
+
+      goToPreviousStep() {
+        if (this.currentStep > 1) {
+          this.currentStep--;
+          this.updateStep();
+        }
+      }
+
+      saveStepData() {
+        const currentStepElement = this.querySelector(`[data-step="${this.currentStep}"]`);
+        const fields = currentStepElement.querySelectorAll('[data-field]');
+
+        fields.forEach(field => {
+          const fieldName = field.getAttribute('data-field');
+          this.formData[fieldName] = field.value;
+        });
+
+        if (this.currentStep === 6) {
+          this.updateSummary();
+        }
+      }
+
+      updateSummary() {
+        const adres = `${this.formData.straat || ''} ${this.formData.huisnummer || ''}, ${this.formData.postcode || ''} ${this.formData.stad || ''}`;
+        
+        this.querySelector('[data-summary="adres"]').textContent = adres;
+        this.querySelector('[data-summary="woningtype"]').textContent = this.formData.woningtype || '';
+        this.querySelector('[data-summary="bouwjaar"]').textContent = this.formData.bouwjaar || '';
+        this.querySelector('[data-summary="oppervlakte"]').textContent = this.formData.oppervlakte ? `${this.formData.oppervlakte} m²` : '';
+        this.querySelector('[data-summary="kamers"]').textContent = this.formData.kamers || '';
+        this.querySelector('[data-summary="staat"]').textContent = this.formData.staat || '';
+        this.querySelector('[data-summary="reden"]').textContent = this.formData.reden || '';
+        this.querySelector('[data-summary="tijdlijn"]').textContent = this.formData.tijdlijn || '';
+        this.querySelector('[data-summary="naam"]').textContent = this.formData.naam || '';
+        this.querySelector('[data-summary="email"]').textContent = this.formData.email || '';
+        this.querySelector('[data-summary="telefoon"]').textContent = this.formData.telefoon || '';
+      }
+
+      updateStep() {
+        this.steps.forEach((step, index) => {
+          if (index + 1 === this.currentStep) {
+            step.classList.add('active');
+          } else {
+            step.classList.remove('active');
+          }
+        });
+
+        const progress = (this.currentStep / this.totalSteps) * 100;
+        this.progressFill.style.width = `${progress}%`;
+        this.currentStepText.textContent = this.currentStep;
+
+        if (this.currentStep === 1) {
+          this.prevButton.style.display = 'none';
+        } else {
+          this.prevButton.style.display = 'block';
+        }
+
+        if (this.currentStep === this.totalSteps) {
+          this.nextButton.style.display = 'none';
+          this.submitButton.style.display = 'block';
+        } else {
+          this.nextButton.style.display = 'block';
+          this.submitButton.style.display = 'none';
+        }
+      }
+
+      handleSubmit(e) {
+        e.preventDefault();
+
+        if (!this.validateStep(this.currentStep)) {
+          return;
+        }
+
+        const formElement = e.target;
+        const formData = new FormData(formElement);
+
+        fetch(formElement.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/javascript'
+          }
+        }).then(() => {
+          this.form.style.display = 'none';
+          this.querySelector('[data-navigation]').style.display = 'none';
+          this.querySelector('.ai-bod-form__progress-{{ ai_gen_id }}').style.display = 'none';
+          this.thankYou.classList.add('active');
+        }).catch(() => {
+          this.form.style.display = 'none';
+          this.querySelector('[data-navigation]').style.display = 'none';
+          this.querySelector('.ai-bod-form__progress-{{ ai_gen_id }}').style.display = 'none';
+          this.thankYou.classList.add('active');
+        });
+      }
+    }
+
+    customElements.define('bod-aanvragen-form-{{ ai_gen_id }}', BodAanvragenForm{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Bod aanvragen form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form title",
+      "default": "Vraag een bod aan op uw woning"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Badge 1 text",
+      "default": "Gratis"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Badge 2 text",
+      "default": "Vrijblijvend"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_text",
+      "label": "Badge 3 text",
+      "default": "Snel"
+    },
+    {
+      "type": "header",
+      "content": "Thank you message"
+    },
+    {
+      "type": "text",
+      "id": "thank_you_title",
+      "label": "Title",
+      "default": "Bedankt voor uw aanvraag!"
+    },
+    {
+      "type": "text",
+      "id": "thank_you_message",
+      "label": "Message",
+      "default": "Wij nemen binnen 24 uur contact met u op"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#1a5f7a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary",
+      "default": "#1a5f7a"
+    },
+    {
+      "type": "color",
+      "id": "primary_hover_color",
+      "label": "Primary hover",
+      "default": "#145166"
+    },
+    {
+      "type": "color",
+      "id": "success_color",
+      "label": "Success",
+      "default": "#2d9f5d"
+    },
+    {
+      "type": "color",
+      "id": "error_color",
+      "label": "Error",
+      "default": "#d32f2f"
+    },
+    {
+      "type": "header",
+      "content": "Badge style"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Background",
+      "default": "#e8f4f8"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text",
+      "default": "#1a5f7a"
+    },
+    {
+      "type": "header",
+      "content": "Progress bar"
+    },
+    {
+      "type": "color",
+      "id": "progress_bg_color",
+      "label": "Background",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "progress_fill_color",
+      "label": "Fill",
+      "default": "#1a5f7a"
+    },
+    {
+      "type": "header",
+      "content": "Input fields"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Border",
+      "default": "#d0d0d0"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "card_hover_bg_color",
+      "label": "Hover background",
+      "default": "#f5f9fa"
+    },
+    {
+      "type": "color",
+      "id": "card_selected_bg_color",
+      "label": "Selected background",
+      "default": "#e8f4f8"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_bg",
+      "label": "Secondary background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Summary"
+    },
+    {
+      "type": "color",
+      "id": "summary_bg_color",
+      "label": "Background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 24,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bod aanvragen form"
+    }
+  ]
+}
+{% endschema %}

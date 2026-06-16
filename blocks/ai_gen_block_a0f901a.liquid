@@ -1,0 +1,407 @@
+{% doc %}
+  @prompt
+    Create an "About Huisunie" section with two-column layout: text left, Netherlands map with pins right. Match Huisunie.nl exactly.
+    
+    SECTION: White background, 80px padding top and bottom. Two columns desktop: text 55% left, map 45% right. Mobile: stack vertically.
+    
+    LEFT COLUMN BLOCKS (each separate editable block):
+    1. HEADING BLOCK: "About Huisunie" bold, dark navy #0D2B5E, 32px, left-aligned, var(--font-heading-family)
+    2. PARAGRAPH BLOCK 1: "Huisunie is a professional home buyer that purchases homes throughout the Netherlands that require modernization or renovation."
+    3. PARAGRAPH BLOCK 2: "In the current housing market, we believe it is unfair that homeowners must incur costs before they can sell their home. Therefore, you can sell your home to us free of charge, without having to renovate it first."
+    4. PARAGRAPH BLOCK 3: "After purchase, these homes are made available again and improved where necessary. In this way, Huisunie contributes to housing mobility and the responsible use of existing homes."
+    5. CTA BUTTON BLOCK: "Request a free offer" bg #0D2B5E, white text, 8px radius, left-aligned, links to "/"
+    
+    RIGHT COLUMN BLOCK:
+    6. MAP BLOCK: Inline SVG of Netherlands map with:
+    - Realistic Netherlands shape with all 12 province borders
+    - Provinces filled with muted blue #7B9EC4, province borders slightly darker
+    - 40-50 dark navy #0D2B5E teardrop/pin SVG path elements scattered realistically across all provinces
+    - More pins dense in Randstad: Amsterdam, Rotterdam, Utrecht, Den Haag area
+    - Responsive, full width of right column, decorative only
+    
+    STYLING: var(--font-heading-family) headings, var(--font-body-family) body. Paragraphs: #333333, 16px, line-height 1.6, 16px margin-bottom. Button hover: slightly lighter navy.
+    
+    IMPORTANT: Every element its own separate schema block. Do NOT use CSS class names with ai- prefix. Horizon theme standard block types. SVG map must be inline with realistic Netherlands geography and actual SVG pin path elements.
+{% enddoc %}
+{% assign gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .about-huisunie-section-{{gen_id}} {
+    display: block;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_top }}px 0 {{ block.settings.padding_bottom }}px;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .about-huisunie-container-{{gen_id}} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .about-huisunie-grid-{{gen_id}} {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .about-huisunie-text-column-{{gen_id}} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.text_spacing }}px;
+  }
+
+  .about-huisunie-map-column-{{gen_id}} {
+    width: 100%;
+  }
+
+  .about-huisunie-heading-{{gen_id}} {
+    font-family: var(--font-heading-family);
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    font-weight: bold;
+    margin: 0;
+    text-align: left;
+  }
+
+  .about-huisunie-paragraph-{{gen_id}} {
+    font-family: var(--font-body-family);
+    font-size: {{ block.settings.paragraph_size }}px;
+    color: {{ block.settings.paragraph_color }};
+    line-height: {{ block.settings.line_height }};
+    margin: 0 0 {{ block.settings.paragraph_margin }}px 0;
+  }
+
+  .about-huisunie-paragraph-{{gen_id}}:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .about-huisunie-button-{{gen_id}} {
+    display: inline-block;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    padding: 15px 30px;
+    border-radius: {{ block.settings.button_radius }}px;
+    text-decoration: none;
+    font-family: var(--font-body-family);
+    font-size: {{ block.settings.button_font_size }}px;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    margin-top: {{ block.settings.text_spacing }}px;
+  }
+
+  .about-huisunie-button-{{gen_id}}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .about-huisunie-map-{{gen_id}} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media screen and (max-width: 768px) {
+    .about-huisunie-grid-{{gen_id}} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .about-huisunie-heading-{{gen_id}} {
+      font-size: {{ block.settings.heading_size | times: 0.75 }}px;
+    }
+  }
+{% endstyle %}
+
+<about-huisunie-section-{{gen_id}} class="about-huisunie-section-{{gen_id}}" {{ block.shopify_attributes }}>
+  <div class="about-huisunie-container-{{gen_id}}">
+    <div class="about-huisunie-grid-{{gen_id}}">
+      <div class="about-huisunie-text-column-{{gen_id}}">
+        {% if block.settings.heading_text != blank %}
+          <h2 class="about-huisunie-heading-{{gen_id}}">{{ block.settings.heading_text }}</h2>
+        {% endif %}
+        
+        {% if block.settings.paragraph_1 != blank %}
+          <p class="about-huisunie-paragraph-{{gen_id}}">{{ block.settings.paragraph_1 }}</p>
+        {% endif %}
+        
+        {% if block.settings.paragraph_2 != blank %}
+          <p class="about-huisunie-paragraph-{{gen_id}}">{{ block.settings.paragraph_2 }}</p>
+        {% endif %}
+        
+        {% if block.settings.paragraph_3 != blank %}
+          <p class="about-huisunie-paragraph-{{gen_id}}">{{ block.settings.paragraph_3 }}</p>
+        {% endif %}
+        
+        {% if block.settings.button_text != blank %}
+          <a href="{{ block.settings.button_link }}" class="about-huisunie-button-{{gen_id}}">
+            {{ block.settings.button_text }}
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="about-huisunie-map-column-{{gen_id}}">
+        {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 1000 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          class="working-method-image-{{ gen_id }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+        >
+      {% else %}
+        <div class="working-method-image-placeholder-{{ gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</about-huisunie-section-{{gen_id}}>
+
+<script>
+  (function() {
+    class AboutHuisunieSection{{gen_id}} extends HTMLElement {
+      constructor() {
+        super();
+      }
+    }
+    customElements.define('about-huisunie-section-{{gen_id}}', AboutHuisunieSection{{gen_id}});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "About Huisunie",
+  "tag": null,
+  "class": "about-huisunie-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "label": "Text spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "About Huisunie"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "Huisunie is a professional home buyer that purchases homes throughout the Netherlands that require modernization or renovation."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Paragraph 2",
+      "default": "In the current housing market, we believe it is unfair that homeowners must incur costs before they can sell their home. Therefore, you can sell your home to us free of charge, without having to renovate it first."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_3",
+      "label": "Paragraph 3",
+      "default": "After purchase, these homes are made available again and improved where necessary. In this way, Huisunie contributes to housing mobility and the responsible use of existing homes."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Request a free offer"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Heading style"
+    },
+    {
+      "type": "image_picker",
+      "id":"image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "header",
+      "content": "Paragraph style"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size",
+      "label": "Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.6
+    },
+    {
+      "type": "range",
+      "id": "paragraph_margin",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Hover background",
+      "default": "#1a3f7a"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Map style"
+    },
+    {
+      "type": "color",
+      "id": "province_fill",
+      "label": "Province fill",
+      "default": "#7B9EC4"
+    },
+    {
+      "type": "color",
+      "id": "province_border",
+      "label": "Province border",
+      "default": "#5a7fa3"
+    },
+    {
+      "type": "color",
+      "id": "pin_color",
+      "label": "Pin color",
+      "default": "#0D2B5E"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Huisunie"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,604 @@
+{% doc %}
+  @prompt
+    Regenerate the Hero with form block to exactly match Huisunie.nl layout.
+    
+    DESKTOP LAYOUT:
+    - Full-width white form card
+    - Single row: [Postal code input] [House number input] [Addition input] [Receive your bid button] — all in one flex row, inputs flex-grow, button fixed width, no wrapping
+    - Below form: three checkmark items in ONE horizontal row: ✓ No renovation needed  ✓ No sales costs  ✓ No financing contingency — all inline, evenly spaced
+    
+    MOBILE LAYOUT:
+    - Inputs stack vertically, each full width
+    - Button full width below inputs
+    - Checkmark items stack vertically one per line
+    - Headline and subtitle left-aligned, readable font size
+    
+    STYLING:
+    - Dark navy blue background overlay #0D2B5E
+    - White form card, full content width, rounded corners, padding
+    - Input fields: light border, placeholder text, no fill
+    - CTA button: dark navy #0D2B5E, white text, rounded, same height as inputs
+    - Checkmark icon: green or navy checkmark before each bullet
+    - Rating badge: white pill with Rated 9.5 gold stars
+    - White headline and subtitle text
+    
+    IMPORTANT: Do NOT use any CSS class names with ai- prefix. Use standard Horizon theme block types. Use flexbox for form row and bullet row. Fully responsive with proper mobile breakpoints.
+{% enddoc %}
+{% assign gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .hero-form-container-{{ gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.overlay_color }};
+    background-image: url('{{ block.settings.background_image | image_url: width: 2000 }}');
+    background-size: cover;
+    background-position: center;
+    padding: 60px 20px;
+  }
+
+  .hero-form-overlay-{{ gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  .hero-form-content-{{ gen_id }} {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .hero-form-text-{{ gen_id }} {
+    margin-bottom: 30px;
+  }
+
+  .hero-form-heading-{{ gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+  }
+
+  .hero-form-subheading-{{ gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.subheading_size }}px;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .hero-form-rating-{{ gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: {{ block.settings.rating_bg_color }};
+    color: {{ block.settings.rating_text_color }};
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .hero-form-stars-{{ gen_id }} {
+    color: {{ block.settings.star_color }};
+    font-size: 16px;
+  }
+
+  .hero-form-card-{{ gen_id }} {
+    background-color: {{ block.settings.form_bg_color }};
+    border-radius: {{ block.settings.form_border_radius }}px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-form-row-{{ gen_id }} {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: stretch;
+  }
+
+  .hero-form-input-wrapper-{{ gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hero-form-input-{{ gen_id }} {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: 16px;
+    background-color: {{ block.settings.input_bg_color }};
+    color: {{ block.settings.input_text_color }};
+  }
+
+  .hero-form-input-{{ gen_id }}::placeholder {
+    color: {{ block.settings.input_placeholder_color }};
+    opacity: 0.7;
+  }
+
+  .hero-form-input-{{ gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.input_focus_border_color }};
+  }
+
+  .hero-form-button-wrapper-{{ gen_id }} {
+    flex-shrink: 0;
+    min-width: 200px;
+  }
+
+  .hero-form-button-{{ gen_id }} {
+    width: 100%;
+    height: 100%;
+    padding: 14px 24px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .hero-form-button-{{ gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+  }
+
+  .hero-form-features-{{ gen_id }} {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .hero-form-feature-{{ gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: {{ block.settings.feature_text_color }};
+    font-size: 15px;
+  }
+
+  .hero-form-checkmark-{{ gen_id }} {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .hero-form-checkmark-{{ gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: {{ block.settings.checkmark_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-form-container-{{ gen_id }} {
+      min-height: 400px;
+      padding: 40px 16px;
+    }
+
+    .hero-form-heading-{{ gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.6 }}px;
+    }
+
+    .hero-form-subheading-{{ gen_id }} {
+      font-size: {{ block.settings.subheading_size | times: 0.85 }}px;
+    }
+
+    .hero-form-card-{{ gen_id }} {
+      padding: 20px;
+    }
+
+    .hero-form-row-{{ gen_id }} {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-form-button-wrapper-{{ gen_id }} {
+      min-width: 100%;
+    }
+
+    .hero-form-features-{{ gen_id }} {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .hero-form-text-{{ gen_id }} {
+      text-align: left;
+    }
+
+    .hero-form-rating-{{ gen_id }} {
+      margin-bottom: 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="hero-form-container-{{ gen_id }}" {{ block.shopify_attributes }}>
+  <div class="hero-form-overlay-{{ gen_id }}"></div>
+  
+  <div class="hero-form-content-{{ gen_id }}">
+    <div class="hero-form-text-{{ gen_id }}">
+      {% if block.settings.show_rating %}
+        <div class="hero-form-rating-{{ gen_id }}">
+          <span>{{ block.settings.rating_text }}</span>
+          <span class="hero-form-stars-{{ gen_id }}">★★★★★</span>
+        </div>
+      {% endif %}
+      
+      {% if block.settings.heading != blank %}
+        <h1 class="hero-form-heading-{{ gen_id }}">{{ block.settings.heading }}</h1>
+      {% endif %}
+      
+      {% if block.settings.subheading != blank %}
+        <p class="hero-form-subheading-{{ gen_id }}">{{ block.settings.subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="hero-form-card-{{ gen_id }}">
+      {%- form 'contact' -%}
+        <input type="hidden" name="contact[subject]" value="{{ block.settings.form_subject }}">
+        
+        <div class="hero-form-row-{{ gen_id }}">
+          <div class="hero-form-input-wrapper-{{ gen_id }}">
+            <input
+              type="text"
+              name="contact[postal_code]"
+              class="hero-form-input-{{ gen_id }}"
+              placeholder="{{ block.settings.postal_code_placeholder }}"
+              required
+            >
+          </div>
+          
+          <div class="hero-form-input-wrapper-{{ gen_id }}">
+            <input
+              type="text"
+              name="contact[house_number]"
+              class="hero-form-input-{{ gen_id }}"
+              placeholder="{{ block.settings.house_number_placeholder }}"
+              required
+            >
+          </div>
+          
+          <div class="hero-form-input-wrapper-{{ gen_id }}">
+            <input
+              type="text"
+              name="contact[addition]"
+              class="hero-form-input-{{ gen_id }}"
+              placeholder="{{ block.settings.addition_placeholder }}"
+            >
+          </div>
+          
+          <div class="hero-form-button-wrapper-{{ gen_id }}">
+            <button type="submit" class="hero-form-button-{{ gen_id }}">
+              {{ block.settings.button_text }}
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-form-features-{{ gen_id }}">
+          {% if block.settings.feature_1 != blank %}
+            <div class="hero-form-feature-{{ gen_id }}">
+              <span class="hero-form-checkmark-{{ gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+              </span>
+              <span>{{ block.settings.feature_1 }}</span>
+            </div>
+          {% endif %}
+          
+          {% if block.settings.feature_2 != blank %}
+            <div class="hero-form-feature-{{ gen_id }}">
+              <span class="hero-form-checkmark-{{ gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+              </span>
+              <span>{{ block.settings.feature_2 }}</span>
+            </div>
+          {% endif %}
+          
+          {% if block.settings.feature_3 != blank %}
+            <div class="hero-form-feature-{{ gen_id }}">
+              <span class="hero-form-checkmark-{{ gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+              </span>
+              <span>{{ block.settings.feature_3 }}</span>
+            </div>
+          {% endif %}
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero with form",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "Text content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sell Your Home Quickly"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Get your guaranteed offer in 24 hours"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Rating badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating badge",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "Rated 9.5"
+    },
+    {
+      "type": "color",
+      "id": "rating_bg_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "rating_text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "header",
+      "content": "Form card"
+    },
+    {
+      "type": "color",
+      "id": "form_bg_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "form_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Form fields"
+    },
+    {
+      "type": "text",
+      "id": "form_subject",
+      "label": "Form subject",
+      "default": "Property valuation request"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "postal_code_placeholder",
+      "label": "Postal code placeholder",
+      "default": "Postal code"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "house_number_placeholder",
+      "label": "House number placeholder",
+      "default": "House number"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "addition_placeholder",
+      "label": "Addition placeholder",
+      "default": "Addition"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Input background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "input_placeholder_color",
+      "label": "Placeholder text",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Border",
+      "default": "#CCCCCC"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_border_color",
+      "label": "Focus border",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Submit button"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Receive your bid"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#0D2B5E"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#0A1F45"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Features"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "feature_1",
+      "label": "Feature 1",
+      "default": "No renovation needed"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "feature_2",
+      "label": "Feature 2",
+      "default": "No sales costs"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "feature_3",
+      "label": "Feature 3",
+      "default": "No financing contingency"
+    },
+    {
+      "type": "color",
+      "id": "feature_text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_color",
+      "label": "Checkmark color",
+      "default": "#22C55E"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero with form"
+    }
+  ]
+}
+{% endschema %}
