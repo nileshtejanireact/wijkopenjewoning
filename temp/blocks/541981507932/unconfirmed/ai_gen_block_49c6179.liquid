@@ -1,6 +1,368 @@
+{% doc %}
+  @prompt
+    Update the "Waarom kiezen voor ons?" (Why choose us) AI-generated block. The block has 6 feature cards with Dutch text. Update the SVG icons to match each feature: 1. Binnen 24 Uur Een Bod → Clock icon, 2. Geen Financieringsvoorbehoud → Shield with checkmark icon, 3. Discrete Verkoop → Lock icon, 4. Geen Makelaarskosten → Euro money bag icon, 5. Snelle Afhandeling → Lightning bolt icon, 6. Bouwval / Verbouwing → House with wrench icon. Keep all styling, colors (icon color #ffd13b, size 32), and layout the same.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-features-container-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 60px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-features-wrapper-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-features-title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin-bottom: 50px;
+  }
+
+  .ai-features-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .ai-feature-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    padding: 30px;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ai-feature-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-feature-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    margin: 0 auto 20px;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-feature-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ai-feature-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .ai-feature-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.description_color }};
+    line-height: 1.6;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-features-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-features-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-features-wrapper-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-features-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    <div class="ai-features-grid-{{ ai_gen_id }}">
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        <div class="ai-feature-icon-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ block.settings.feature_1_title }}</h3>
+        <p class="ai-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_1_description }}</p>
+      </div>
+
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        <div class="ai-feature-icon-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <polyline points="9 12 11 14 15 10"></polyline>
+          </svg>
+        </div>
+        <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ block.settings.feature_2_title }}</h3>
+        <p class="ai-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_2_description }}</p>
+      </div>
+
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        <div class="ai-feature-icon-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ block.settings.feature_3_title }}</h3>
+        <p class="ai-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_3_description }}</p>
+      </div>
+
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        <div class="ai-feature-icon-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+        <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ block.settings.feature_4_title }}</h3>
+        <p class="ai-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_4_description }}</p>
+      </div>
+
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        <div class="ai-feature-icon-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ block.settings.feature_5_title }}</h3>
+        <p class="ai-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_5_description }}</p>
+      </div>
+
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        <div class="ai-feature-icon-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            <path d="M14 7h4M14 10h4"></path>
+          </svg>
+        </div>
+        <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ block.settings.feature_6_title }}</h3>
+        <p class="ai-feature-description-{{ ai_gen_id }}">{{ block.settings.feature_6_description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Waarom kiezen voor ons?",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titel",
+      "default": "Waarom kiezen voor ons?"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Titelgrootte",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Titelkleur",
+      "default": "#023130"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Achtergrondkleur",
+      "default": "#f1eeec"
+    },
+    {
+      "type": "header",
+      "content": "Kaartinstellingen"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Kaartachtergrond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Kaarthoekradius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Pictograminstellingen"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Pictogramgrootte",
+      "min": 24,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Pictogramkleur",
+      "default": "#ffd13b"
+    },
+    {
+      "type": "header",
+      "content": "Tekstinstellingen"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Kopgrootte",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Kopkleur",
+      "default": "#023130"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Beschrijvingsgrootte",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Beschrijvingskleur",
+      "default": "#023130"
+    },
+    {
+      "type": "header",
+      "content": "Functie 1"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_title",
+      "label": "Titel",
+      "default": "Binnen 24 Uur Een Bod"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_1_description",
+      "label": "Beschrijving",
+      "default": "Ontvang snel een eerlijk bod op uw woning."
+    },
+    {
+      "type": "header",
+      "content": "Functie 2"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_title",
+      "label": "Titel",
+      "default": "Geen Financieringsvoorbehoud"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_2_description",
+      "label": "Beschrijving",
+      "default": "Zekerheid van verkoop zonder financieringsrisico."
+    },
+    {
+      "type": "header",
+      "content": "Functie 3"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_title",
+      "label": "Titel",
+      "default": "Discrete Verkoop"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_3_description",
+      "label": "Beschrijving",
+      "default": "Uw privacy staat bij ons voorop."
+    },
+    {
+      "type": "header",
+      "content": "Functie 4"
+    },
+    {
+      "type": "text",
+      "id": "feature_4_title",
+      "label": "Titel",
+      "default": "Geen Makelaarskosten"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_4_description",
+      "label": "Beschrijving",
+      "default": "Bespaar duizenden euro's aan makelaarskosten."
+    },
+    {
+      "type": "header",
+      "content": "Functie 5"
+    },
+    {
+      "type": "text",
+      "id": "feature_5_title",
+      "label": "Titel",
+      "default": "Snelle Afhandeling"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_5_description",
+      "label": "Beschrijving",
+      "default": "Verkoop uw woning in recordtijd."
+    },
+    {
+      "type": "header",
+      "content": "Functie 6"
+    },
+    {
+      "type": "text",
+      "id": "feature_6_title",
+      "label": "Titel",
+      "default": "Bouwval / Verbouwing"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_6_description",
+      "label": "Beschrijving",
+      "default": "Ook woningen die verbouwd moeten worden kopen wij."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Waarom kiezen voor ons?"
+    }
+  ]
+}
 {% endschema %}
