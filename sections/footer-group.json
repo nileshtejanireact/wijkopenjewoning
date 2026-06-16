@@ -1,1 +1,291 @@
-{"type":"footer","name":"Footer","sections":{"footer_m9NzUG":{"type":"footer","blocks":{"group_H6VpwJ":{"type":"group","settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"flex-start","gap":6,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"inherit_color_scheme":true,"color_scheme":"","background_media":"none","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","link":"","open_in_new_tab":false,"placeholder":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"image_YMWz97":{"type":"image","name":"t:names.image","settings":{"image":"shopify:\/\/shop_images\/Can_you_provude_with_a_white_b_Nano_Banana_Pro_24851.png","link":"","image_ratio":"adapt","width":"custom","custom_width":40,"width_mobile":"custom","custom_width_mobile":20,"height":"fit","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"spacer_egm473":{"type":"spacer","name":"t:names.spacer","settings":{"size":"percent","percent_size":5,"pixel_size":120,"custom_mobile_size":false,"size_mobile":"percent","percent_size_mobile":100,"pixel_size_mobile":120},"blocks":{}},"text_LWt8Pz":{"type":"text","settings":{"text":"<p>Wij kopen uw vastgoed direct aan. Snel, zeker en zonder gedoe. Binnen 24 uur een bod, zonder financieringsvoorbehoud.<\/p>","width":"100%","max_width":"normal","alignment":"left","type_preset":"h4","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"spacer_9QVnzb":{"type":"spacer","name":"t:names.spacer","settings":{"size":"percent","percent_size":5,"pixel_size":120,"custom_mobile_size":false,"size_mobile":"percent","percent_size_mobile":100,"pixel_size_mobile":120},"blocks":{}},"custom_liquid_BCPjQ8":{"type":"custom-liquid","name":"t:names.custom_liquid","settings":{"custom_liquid":"<div class=\"space-y-3\"><div class=\"flex items-center gap-2 text-cream\/80\"><svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-building2 w-4 h-4\"><path d=\"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z\"><\/path><path d=\"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2\"><\/path><path d=\"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2\"><\/path><path d=\"M10 6h4\"><\/path><path d=\"M10 10h4\"><\/path><path d=\"M10 14h4\"><\/path><path d=\"M10 18h4\"><\/path><\/svg><span>Wij Kopen je woning <\/span><\/div><a href=\"mailto:info@wijkopenjewoning.nl\" class=\"flex items-center gap-2 text-cream\/80 hover:text-accent transition-colors\"><svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-mail w-4 h-4\"><rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\"><\/rect><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"><\/path><\/svg><span>info@wijkopenjewoning.nl<\/span><\/a><div class=\"flex items-center gap-2 text-cream\/80\"><svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-file-text w-4 h-4\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"><\/path><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"><\/path><path d=\"M10 9H8\"><\/path><path d=\"M16 13H8\"><\/path><path d=\"M16 17H8\"><\/path><\/svg><span>Via notaris geregeld!<\/span><\/div><\/div>"},"blocks":{}}},"block_order":["image_YMWz97","spacer_egm473","text_LWt8Pz","spacer_9QVnzb","custom_liquid_BCPjQ8"]},"menu_bxPEzG":{"type":"menu","name":"t:names.menu","settings":{"menu":"footer-menu-1","heading":"Snelle Links","menu_spacing":12,"show_as_accordion":false,"accordion_icon":"caret","accordion_dividers":false,"inherit_color_scheme":true,"color_scheme":"","heading_preset":"h3","link_preset":"paragraph","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"menu_j74TfH":{"type":"menu","name":"t:names.menu","settings":{"menu":"footer-menu-2","heading":"Vastgoed Types","menu_spacing":12,"show_as_accordion":false,"accordion_icon":"caret","accordion_dividers":false,"inherit_color_scheme":true,"color_scheme":"","heading_preset":"h3","link_preset":"paragraph","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"menu_B3Di8E":{"type":"menu","name":"t:names.menu","disabled":true,"settings":{"menu":"footer-menu-3","heading":"Regio's","menu_spacing":12,"show_as_accordion":false,"accordion_icon":"caret","accordion_dividers":false,"inherit_color_scheme":true,"color_scheme":"","heading_preset":"h3","link_preset":"paragraph","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["group_H6VpwJ","menu_bxPEzG","menu_j74TfH","menu_B3Di8E"],"name":"t:names.footer","settings":{"section_width":"page-width","gap":20,"color_scheme":"scheme-3aaa6e23-5c5b-4ef5-88af-26d6617c407b","padding-block-start":30,"padding-block-end":30}},"footer_utilities_jLGE8U":{"type":"footer-utilities","blocks":{"footer_copyright_jweRK8":{"type":"footer-copyright","settings":{"show_powered_by":false,"font_size":"0.875rem","case":"none"},"blocks":{}},"footer_policy_list_VCdnpa":{"type":"footer-policy-list","disabled":true,"settings":{"font_size":"0.75rem","case":"none"},"blocks":{}},"social_links_Ew63Kq":{"type":"social-links","disabled":true,"settings":{"facebook_url":"https:\/\/www.facebook.com\/","instagram_url":"https:\/\/www.instagram.com\/","youtube_url":"https:\/\/www.youtube.com\/","tiktok_url":"https:\/\/www.tiktok.com\/","twitter_url":"https:\/\/x.com\/","threads_url":"","linkedin_url":"","bluesky_url":"","snapchat_url":"","pinterest_url":"","tumblr_url":"","vimeo_url":"","custom_url":""},"blocks":{}}},"block_order":["footer_copyright_jweRK8","footer_policy_list_VCdnpa","social_links_Ew63Kq"],"name":"t:names.utilities","settings":{"section_width":"page-width","gap":24,"divider_thickness":0,"color_scheme":"scheme-3aaa6e23-5c5b-4ef5-88af-26d6617c407b","padding-block-start":20,"padding-block-end":48}}},"order":["footer_m9NzUG","footer_utilities_jLGE8U"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer_m9NzUG": {
+      "type": "footer",
+      "blocks": {
+        "group_H6VpwJ": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 6,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "image_YMWz97": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/Can_you_provude_with_a_white_b_Nano_Banana_Pro_24851.png",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "custom",
+                "custom_width": 40,
+                "width_mobile": "custom",
+                "custom_width_mobile": 20,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "spacer_egm473": {
+              "type": "spacer",
+              "name": "t:names.spacer",
+              "settings": {
+                "size": "percent",
+                "percent_size": 5,
+                "pixel_size": 120,
+                "custom_mobile_size": false,
+                "size_mobile": "percent",
+                "percent_size_mobile": 100,
+                "pixel_size_mobile": 120
+              },
+              "blocks": {}
+            },
+            "text_LWt8Pz": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Wij kopen uw vastgoed direct aan. Snel, zeker en zonder gedoe. Binnen 24 uur een bod, zonder financieringsvoorbehoud.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "spacer_9QVnzb": {
+              "type": "spacer",
+              "name": "t:names.spacer",
+              "settings": {
+                "size": "percent",
+                "percent_size": 5,
+                "pixel_size": 120,
+                "custom_mobile_size": false,
+                "size_mobile": "percent",
+                "percent_size_mobile": 100,
+                "pixel_size_mobile": 120
+              },
+              "blocks": {}
+            },
+            "custom_liquid_BCPjQ8": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<div class=\"space-y-3\"><div class=\"flex items-center gap-2 text-cream/80\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-building2 w-4 h-4\"><path d=\"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z\"></path><path d=\"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2\"></path><path d=\"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2\"></path><path d=\"M10 6h4\"></path><path d=\"M10 10h4\"></path><path d=\"M10 14h4\"></path><path d=\"M10 18h4\"></path></svg><span>Wij Kopen je woning </span></div><a href=\"mailto:info@wijkopenjewoning.nl\" class=\"flex items-center gap-2 text-cream/80 hover:text-accent transition-colors\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-mail w-4 h-4\"><rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\"></rect><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"></path></svg><span>info@wijkopenjewoning.nl</span></a><div class=\"flex items-center gap-2 text-cream/80\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-file-text w-4 h-4\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"></path><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"></path><path d=\"M10 9H8\"></path><path d=\"M16 13H8\"></path><path d=\"M16 17H8\"></path></svg><span>Via notaris geregeld!</span></div></div>"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "image_YMWz97",
+            "spacer_egm473",
+            "text_LWt8Pz",
+            "spacer_9QVnzb",
+            "custom_liquid_BCPjQ8"
+          ]
+        },
+        "menu_bxPEzG": {
+          "type": "menu",
+          "name": "t:names.menu",
+          "settings": {
+            "menu": "footer-menu-1",
+            "heading": "Snelle Links",
+            "menu_spacing": 12,
+            "show_as_accordion": false,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "menu_j74TfH": {
+          "type": "menu",
+          "name": "t:names.menu",
+          "settings": {
+            "menu": "footer-menu-2",
+            "heading": "Vastgoed Types",
+            "menu_spacing": 12,
+            "show_as_accordion": false,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "menu_B3Di8E": {
+          "type": "menu",
+          "name": "t:names.menu",
+          "disabled": true,
+          "settings": {
+            "menu": "footer-menu-3",
+            "heading": "Regio's",
+            "menu_spacing": 12,
+            "show_as_accordion": false,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "group_H6VpwJ",
+        "menu_bxPEzG",
+        "menu_j74TfH",
+        "menu_B3Di8E"
+      ],
+      "name": "t:names.footer",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 20,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 30,
+        "padding-block-end": 30
+      }
+    },
+    "footer_utilities_jLGE8U": {
+      "type": "footer-utilities",
+      "blocks": {
+        "footer_copyright_jweRK8": {
+          "type": "footer-copyright",
+          "settings": {
+            "show_powered_by": false,
+            "font_size": "0.875rem",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "footer_policy_list_VCdnpa": {
+          "type": "footer-policy-list",
+          "disabled": true,
+          "settings": {
+            "font_size": "0.75rem",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "social_links_Ew63Kq": {
+          "type": "social-links",
+          "disabled": true,
+          "settings": {
+            "facebook_url": "https://www.facebook.com/",
+            "instagram_url": "https://www.instagram.com/",
+            "youtube_url": "https://www.youtube.com/",
+            "tiktok_url": "https://www.tiktok.com/",
+            "twitter_url": "https://x.com/",
+            "threads_url": "",
+            "linkedin_url": "",
+            "bluesky_url": "",
+            "snapchat_url": "",
+            "pinterest_url": "",
+            "tumblr_url": "",
+            "vimeo_url": "",
+            "custom_url": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "footer_copyright_jweRK8",
+        "footer_policy_list_VCdnpa",
+        "social_links_Ew63Kq"
+      ],
+      "name": "t:names.utilities",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 24,
+        "divider_thickness": 0,
+        "color_scheme": "scheme-5",
+        "padding-block-start": 20,
+        "padding-block-end": 48
+      }
+    }
+  },
+  "order": [
+    "footer_m9NzUG",
+    "footer_utilities_jLGE8U"
+  ]
+}
