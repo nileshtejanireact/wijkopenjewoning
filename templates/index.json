@@ -465,7 +465,7 @@
         "section_width": "full-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -554,7 +554,7 @@
         "ai_gen_block_895d7d2_NfrqFH": {
           "type": "ai_gen_block_895d7d2",
           "settings": {
-            "section_background": "#ffd13b",
+            "section_background": "#FC5900",
             "section_padding": 80,
             "heading": "The benefits of selling directly",
             "heading_size": 40,
