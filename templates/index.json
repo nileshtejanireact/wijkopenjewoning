@@ -740,7 +740,7 @@
             "primary_hover_color": "#FC5900",
             "success_color": "#2d9f5d",
             "error_color": "#d32f2f",
-            "badge_bg_color": "#e8f4f8",
+            "badge_bg_color": "#FDF3EA",
             "badge_text_color": "#FC5900",
             "progress_bg_color": "#e0e0e0",
             "progress_fill_color": "#FC5900",
