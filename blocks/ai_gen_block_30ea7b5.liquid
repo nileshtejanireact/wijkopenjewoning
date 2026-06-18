@@ -609,7 +609,17 @@ if (!form) {
 console.log('Form not found');
 return;
 }
+const errorBox = document.getElementById('heroError');
 
+function showError(message) {
+errorBox.innerHTML = message;
+errorBox.classList.add('show');
+}
+
+function clearError() {
+errorBox.innerHTML = '';
+errorBox.classList.remove('show');
+}
 form.addEventListener('submit', function(e) {
 e.preventDefault();
 const postcodeField = document.querySelector('[name="postal_code"]');
@@ -623,17 +633,17 @@ const toevoeging = toevoegingField ? toevoegingField.value.trim() : '';
 const postcodeRegex = /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/;
 /*
 if (!postcodeRegex.test(postcode)) {
-  alert('Voer een geldige postcode in');
-  return;
+  showError('Voer een geldige postcode in. Bijvoorbeeld: 1234 AB');
+return;
 }
 
 if (!/^\d+$/.test(huisnummer) || parseInt(huisnummer) <= 0) {
-  alert('Voer een geldig huisnummer in');
+  showError('Voer een geldig huisnummer in');
   return;
 }
 
 if (toevoeging && !/^[A-Za-z0-9\s-]{1,10}$/.test(toevoeging)) {
-  alert('Voer een geldige toevoeging in');
+  showError('Voer een geldige toevoeging in');
   return;
 }*/
 
