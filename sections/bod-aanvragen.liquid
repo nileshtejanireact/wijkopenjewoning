@@ -364,7 +364,16 @@
 (function() {
   var currentStep = 1;
   var totalSteps = 6;
+  const urlParams = new URLSearchParams(window.location.search);
 
+document.getElementById('bodPostcode').value =
+  urlParams.get('postcode') || '';
+
+document.getElementById('bodHuisnummer').value =
+  urlParams.get('huisnummer') || '';
+
+document.getElementById('bodToevoeging').value =
+  urlParams.get('toevoeging') || '';
   function showStep(step) {
     for (var i = 1; i <= totalSteps; i++) {
       var el = document.getElementById('bodStep' + i);
