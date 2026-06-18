@@ -706,3 +706,54 @@
 </style>
 
 <script src="{{ 'multistep-form.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Multistap Formulier",
+  "settings": [
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Formulier titel",
+      "default": "Uw bod aanvraag"
+    },
+    {
+      "type": "text",
+      "id": "form_subtitle",
+      "label": "Formulier ondertitel",
+      "default": "Vul het formulier in voor een gratis bod op uw woning"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primaire kleur",
+      "default": "#2c3e50"
+    },
+    {
+      "type": "color",
+      "id": "success_color",
+      "label": "Succeskleur",
+      "default": "#27ae60"
+    },
+    {
+      "type": "text",
+      "id": "submission_url",
+      "label": "Indiening URL",
+      "default": "https://www.greatwebdev.com/wijkopenjewoning.php",
+      "info": "De URL waar het formulier naar zal worden verzonden"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multistap Formulier",
+      "settings": {
+        "form_title": "Uw bod aanvraag",
+        "form_subtitle": "Vul het formulier in voor een gratis bod op uw woning",
+        "primary_color": "#2c3e50",
+        "success_color": "#27ae60",
+        "submission_url": "https://www.greatwebdev.com/wijkopenjewoning.php"
+      }
+    }
+  ]
+}
+{% endschema %}
