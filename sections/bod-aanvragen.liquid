@@ -494,6 +494,10 @@
   }
 
   window.bodNext = function() {
+      const benefits = document.querySelector('.bod-benefits');
+  if (benefits) {
+    benefits.style.display = 'none';
+  }
     if (!validateStep(currentStep)) return;
     if (currentStep === totalSteps) {
       submitForm();
