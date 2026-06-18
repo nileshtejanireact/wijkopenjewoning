@@ -1,0 +1,538 @@
+<style>
+  .bod-form-wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #1a1a1a;
+  }
+
+  .bod-progress {
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .bod-progress-bar {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .bod-progress-fill {
+    height: 100%;
+    background: #2ecc71;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .bod-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+    padding: 36px 40px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 600px) {
+    .bod-card { padding: 24px 18px; }
+  }
+
+  .bod-step { display: none; }
+  .bod-step.active { display: block; }
+
+  .bod-step h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+  }
+
+  .bod-field {
+    margin-bottom: 20px;
+  }
+
+  .bod-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #333;
+  }
+
+  .bod-field input[type="text"],
+  .bod-field input[type="email"],
+  .bod-field input[type="tel"],
+  .bod-field input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  .bod-field input:focus {
+    border-color: #2ecc71;
+  }
+
+  .bod-field input.error {
+    border-color: #e74c3c;
+  }
+
+  .bod-error {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .bod-error.visible { display: block; }
+
+  .bod-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bod-radio-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    font-size: 15px;
+  }
+
+  .bod-radio-option:hover {
+    border-color: #2ecc71;
+    background: #f0fdf4;
+  }
+
+  .bod-radio-option input[type="radio"] {
+    accent-color: #2ecc71;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+  .bod-radio-option.selected {
+    border-color: #2ecc71;
+    background: #f0fdf4;
+  }
+
+  .bod-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+  }
+
+  .bod-btn {
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .bod-btn:active { transform: scale(0.98); }
+
+  .bod-btn-primary {
+    background: #2ecc71;
+    color: #fff;
+    flex: 1;
+  }
+
+  .bod-btn-primary:hover { background: #27ae60; }
+
+  .bod-btn-secondary {
+    background: #f0f0f0;
+    color: #333;
+  }
+
+  .bod-btn-secondary:hover { background: #e0e0e0; }
+
+  .bod-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .bod-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: bod-spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  @keyframes bod-spin { to { transform: rotate(360deg); } }
+
+  .bod-success, .bod-failure {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .bod-success.visible, .bod-failure.visible { display: block; }
+
+  .bod-success-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+  }
+
+  .bod-success h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #27ae60;
+    margin-bottom: 10px;
+  }
+
+  .bod-success p { color: #555; font-size: 15px; }
+
+  .bod-failure h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e74c3c;
+    margin-bottom: 10px;
+  }
+
+  .bod-failure p { color: #555; font-size: 15px; margin-bottom: 20px; }
+
+  .bod-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    .bod-two-col { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="bod-form-wrapper" id="bodFormWrapper">
+  <div class="bod-progress">
+    <div class="bod-progress-bar">
+      <div class="bod-progress-fill" id="bodProgressFill" style="width:16.66%"></div>
+    </div>
+    <span id="bodProgressText">Stap 1 van 6</span>
+  </div>
+
+  <div class="bod-card">
+
+    <!-- SUCCESS -->
+    <div class="bod-success" id="bodSuccess">
+      <div class="bod-success-icon">🎉</div>
+      <h3>Bedankt voor uw aanvraag!</h3>
+      <p>We hebben uw gegevens ontvangen en nemen zo snel mogelijk contact met u op.</p>
+    </div>
+
+    <!-- FAILURE -->
+    <div class="bod-failure" id="bodFailure">
+      <h3>Er is iets misgegaan</h3>
+      <p>Uw aanvraag kon niet worden verzonden. Probeer het opnieuw.</p>
+      <button class="bod-btn bod-btn-primary" onclick="bodRetry()">Opnieuw proberen</button>
+    </div>
+
+    <!-- STEP 1: Address -->
+    <div class="bod-step active" id="bodStep1" role="group" aria-labelledby="bodStep1Title">
+      <h2 id="bodStep1Title">Wat is het adres van de woning?</h2>
+      <div class="bod-two-col">
+        <div class="bod-field">
+          <label for="bodPostcode">Postcode *</label>
+          <input type="text" id="bodPostcode" placeholder="1234 AB" maxlength="7" aria-required="true" />
+          <div class="bod-error" id="bodPostcodeError">Voer een geldige postcode in (bijv. 1234 AB)</div>
+        </div>
+        <div class="bod-field">
+          <label for="bodHuisnummer">Huisnummer *</label>
+          <input type="number" id="bodHuisnummer" placeholder="12" min="1" aria-required="true" />
+          <div class="bod-error" id="bodHuisnummerError">Voer een geldig huisnummer in</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Funda -->
+    <div class="bod-step" id="bodStep2" role="group" aria-labelledby="bodStep2Title">
+      <h2 id="bodStep2Title">Staat de woning op Funda?</h2>
+      <div class="bod-radio-group" id="bodFundaGroup">
+        <label class="bod-radio-option">
+          <input type="radio" name="funda" value="ja" /> Ja
+        </label>
+        <label class="bod-radio-option">
+          <input type="radio" name="funda" value="nee" /> Nee
+        </label>
+      </div>
+      <div class="bod-error" id="bodFundaError">Maak een keuze</div>
+    </div>
+
+    <!-- STEP 3: Condition -->
+    <div class="bod-step" id="bodStep3" role="group" aria-labelledby="bodStep3Title">
+      <h2 id="bodStep3Title">Wat is de staat van de woning?</h2>
+      <div class="bod-radio-group" id="bodConditionGroup">
+        <label class="bod-radio-option"><input type="radio" name="condition" value="Slecht" /> Slecht</label>
+        <label class="bod-radio-option"><input type="radio" name="condition" value="Matig" /> Matig</label>
+        <label class="bod-radio-option"><input type="radio" name="condition" value="Redelijk" /> Redelijk</label>
+        <label class="bod-radio-option"><input type="radio" name="condition" value="Goed" /> Goed</label>
+        <label class="bod-radio-option"><input type="radio" name="condition" value="Uitstekend" /> Uitstekend</label>
+      </div>
+      <div class="bod-error" id="bodConditionError">Maak een keuze</div>
+    </div>
+
+    <!-- STEP 4: Reason -->
+    <div class="bod-step" id="bodStep4" role="group" aria-labelledby="bodStep4Title">
+      <h2 id="bodStep4Title">Wat is de reden van verkoop?</h2>
+      <div class="bod-radio-group" id="bodReasonGroup">
+        <label class="bod-radio-option"><input type="radio" name="reason" value="Scheiding" /> Scheiding</label>
+        <label class="bod-radio-option"><input type="radio" name="reason" value="Financiële problemen" /> Financiële problemen</label>
+        <label class="bod-radio-option"><input type="radio" name="reason" value="Verhuizing" /> Verhuizing</label>
+        <label class="bod-radio-option"><input type="radio" name="reason" value="Erfenis" /> Erfenis</label>
+        <label class="bod-radio-option"><input type="radio" name="reason" value="Investering" /> Investering</label>
+        <label class="bod-radio-option"><input type="radio" name="reason" value="Andere reden" /> Andere reden</label>
+      </div>
+      <div class="bod-error" id="bodReasonError">Maak een keuze</div>
+    </div>
+
+    <!-- STEP 5: Timeline -->
+    <div class="bod-step" id="bodStep5" role="group" aria-labelledby="bodStep5Title">
+      <h2 id="bodStep5Title">Wanneer wilt u verkopen?</h2>
+      <div class="bod-radio-group" id="bodTimelineGroup">
+        <label class="bod-radio-option"><input type="radio" name="timeline" value="Zo snel mogelijk" /> Zo snel mogelijk</label>
+        <label class="bod-radio-option"><input type="radio" name="timeline" value="Binnen 3 maanden" /> Binnen 3 maanden</label>
+        <label class="bod-radio-option"><input type="radio" name="timeline" value="Binnen 6 maanden" /> Binnen 6 maanden</label>
+        <label class="bod-radio-option"><input type="radio" name="timeline" value="Geen haast" /> Geen haast</label>
+      </div>
+      <div class="bod-error" id="bodTimelineError">Maak een keuze</div>
+    </div>
+
+    <!-- STEP 6: Contact -->
+    <div class="bod-step" id="bodStep6" role="group" aria-labelledby="bodStep6Title">
+      <h2 id="bodStep6Title">Uw contactgegevens</h2>
+      <div class="bod-two-col">
+        <div class="bod-field">
+          <label for="bodVoornaam">Voornaam *</label>
+          <input type="text" id="bodVoornaam" placeholder="Jan" aria-required="true" />
+          <div class="bod-error" id="bodVoornaamError">Voer uw voornaam in</div>
+        </div>
+        <div class="bod-field">
+          <label for="bodAchternaam">Achternaam *</label>
+          <input type="text" id="bodAchternaam" placeholder="de Vries" aria-required="true" />
+          <div class="bod-error" id="bodAchternaamError">Voer uw achternaam in</div>
+        </div>
+      </div>
+      <div class="bod-field">
+        <label for="bodEmail">E-mailadres *</label>
+        <input type="email" id="bodEmail" placeholder="jan@voorbeeld.nl" aria-required="true" />
+        <div class="bod-error" id="bodEmailError">Voer een geldig e-mailadres in</div>
+      </div>
+      <div class="bod-field">
+        <label for="bodTelefoon">Telefoonnummer *</label>
+        <input type="tel" id="bodTelefoon" placeholder="+31 6 12345678" aria-required="true" />
+        <div class="bod-error" id="bodTelefoonError">Voer een geldig telefoonnummer in (minimaal 8 cijfers)</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="bod-nav" id="bodNav">
+      <button class="bod-btn bod-btn-secondary" id="bodPrevBtn" onclick="bodPrev()" style="display:none">← Vorige</button>
+      <button class="bod-btn bod-btn-primary" id="bodNextBtn" onclick="bodNext()">Volgende →</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var currentStep = 1;
+  var totalSteps = 6;
+
+  function showStep(step) {
+    for (var i = 1; i <= totalSteps; i++) {
+      var el = document.getElementById('bodStep' + i);
+      if (el) el.classList.toggle('active', i === step);
+    }
+    var pct = (step / totalSteps * 100).toFixed(2);
+    document.getElementById('bodProgressFill').style.width = pct + '%';
+    document.getElementById('bodProgressText').textContent = 'Stap ' + step + ' van ' + totalSteps;
+    document.getElementById('bodPrevBtn').style.display = step > 1 ? 'inline-block' : 'none';
+    var nextBtn = document.getElementById('bodNextBtn');
+    nextBtn.textContent = step === totalSteps ? 'Verstuur aanvraag' : 'Volgende →';
+    highlightSelected();
+  }
+
+  function highlightSelected() {
+    document.querySelectorAll('.bod-radio-option').forEach(function(label) {
+      var radio = label.querySelector('input[type="radio"]');
+      label.classList.toggle('selected', radio && radio.checked);
+    });
+  }
+
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'radio') highlightSelected();
+  });
+
+  function validateStep(step) {
+    var valid = true;
+
+    function showErr(id, show) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle('visible', show);
+    }
+    function setInputError(id, show) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle('error', show);
+    }
+
+    if (step === 1) {
+      var pc = document.getElementById('bodPostcode').value.trim();
+      var hn = document.getElementById('bodHuisnummer').value.trim();
+      var pcValid = /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/.test(pc);
+      var hnValid = hn !== '' && parseInt(hn) > 0;
+      showErr('bodPostcodeError', !pcValid);
+      setInputError('bodPostcode', !pcValid);
+      showErr('bodHuisnummerError', !hnValid);
+      setInputError('bodHuisnummer', !hnValid);
+      valid = pcValid && hnValid;
+    }
+
+    if (step === 2) {
+      var checked = document.querySelector('input[name="funda"]:checked');
+      showErr('bodFundaError', !checked);
+      valid = !!checked;
+    }
+
+    if (step === 3) {
+      var checked = document.querySelector('input[name="condition"]:checked');
+      showErr('bodConditionError', !checked);
+      valid = !!checked;
+    }
+
+    if (step === 4) {
+      var checked = document.querySelector('input[name="reason"]:checked');
+      showErr('bodReasonError', !checked);
+      valid = !!checked;
+    }
+
+    if (step === 5) {
+      var checked = document.querySelector('input[name="timeline"]:checked');
+      showErr('bodTimelineError', !checked);
+      valid = !!checked;
+    }
+
+    if (step === 6) {
+      var fn = document.getElementById('bodVoornaam').value.trim();
+      var ln = document.getElementById('bodAchternaam').value.trim();
+      var em = document.getElementById('bodEmail').value.trim();
+      var ph = document.getElementById('bodTelefoon').value.trim();
+      var emValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+      var phValid = ph.replace(/\D/g,'').length >= 8;
+      showErr('bodVoornaamError', !fn); setInputError('bodVoornaam', !fn);
+      showErr('bodAchternaamError', !ln); setInputError('bodAchternaam', !ln);
+      showErr('bodEmailError', !emValid); setInputError('bodEmail', !emValid);
+      showErr('bodTelefoonError', !phValid); setInputError('bodTelefoon', !phValid);
+      valid = fn && ln && emValid && phValid;
+    }
+
+    return valid;
+  }
+
+  window.bodNext = function() {
+    if (!validateStep(currentStep)) return;
+    if (currentStep === totalSteps) {
+      submitForm();
+      return;
+    }
+    currentStep++;
+    showStep(currentStep);
+  };
+
+  window.bodPrev = function() {
+    if (currentStep > 1) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  };
+
+  window.bodRetry = function() {
+    document.getElementById('bodFailure').classList.remove('visible');
+    document.getElementById('bodNav').style.display = 'flex';
+    showStep(currentStep);
+  };
+
+  function submitForm() {
+    var nextBtn = document.getElementById('bodNextBtn');
+    nextBtn.disabled = true;
+    nextBtn.innerHTML = '<span class="bod-spinner"></span> Verzenden...';
+
+    var params = new URLSearchParams();
+    params.append('postcode', document.getElementById('bodPostcode').value.trim());
+    params.append('house_number', document.getElementById('bodHuisnummer').value.trim());
+    params.append('funda_status', document.querySelector('input[name="funda"]:checked').value);
+    params.append('property_condition', document.querySelector('input[name="condition"]:checked').value);
+    params.append('selling_reason', document.querySelector('input[name="reason"]:checked').value);
+    params.append('selling_timeline', document.querySelector('input[name="timeline"]:checked').value);
+    params.append('first_name', document.getElementById('bodVoornaam').value.trim());
+    params.append('last_name', document.getElementById('bodAchternaam').value.trim());
+    params.append('email', document.getElementById('bodEmail').value.trim());
+    params.append('phone', document.getElementById('bodTelefoon').value.trim());
+
+    fetch('https://www.greatwebdev.com/wijkopenjewoning.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('Server error');
+      for (var i = 1; i <= totalSteps; i++) {
+        var el = document.getElementById('bodStep' + i);
+        if (el) el.classList.remove('active');
+      }
+      document.getElementById('bodNav').style.display = 'none';
+      document.getElementById('bodProgressFill').style.width = '100%';
+      document.getElementById('bodProgressText').textContent = 'Aanvraag verzonden';
+      document.getElementById('bodSuccess').classList.add('visible');
+    })
+    .catch(function() {
+      for (var i = 1; i <= totalSteps; i++) {
+        var el = document.getElementById('bodStep' + i);
+        if (el) el.classList.remove('active');
+      }
+      document.getElementById('bodNav').style.display = 'none';
+      document.getElementById('bodFailure').classList.add('visible');
+      nextBtn.disabled = false;
+      nextBtn.textContent = 'Verstuur aanvraag';
+    });
+  }
+
+  showStep(1);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Bod Aanvragen",
+  "tag": "section",
+  "class": "bod-aanvragen-section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Bod Aanvragen"
+    }
+  ]
+}
+{% endschema %}
