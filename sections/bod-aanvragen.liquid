@@ -215,14 +215,14 @@
 
   .bod-failure p { color: #555; font-size: 15px; margin-bottom: 20px; }
 
-  .bod-two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
+.bod-three-col {
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:16px;
+}
 
-  @media (max-width: 480px) {
-    .bod-two-col { grid-template-columns: 1fr; }
+  @media (max-width: 768px) {
+    .bod-three-col { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -253,7 +253,7 @@
     <!-- STEP 1: Address -->
     <div class="bod-step active" id="bodStep1" role="group" aria-labelledby="bodStep1Title">
       <h2 id="bodStep1Title">Wat is het adres van de woning?</h2>
-      <div class="bod-two-col">
+      <div class="bod-three-col">
         <div class="bod-field">
           <label for="bodPostcode">Postcode *</label>
           <input type="text" id="bodPostcode" placeholder="1234 AB" maxlength="7" aria-required="true" />
@@ -264,6 +264,10 @@
           <input type="number" id="bodHuisnummer" placeholder="12" min="1" aria-required="true" />
           <div class="bod-error" id="bodHuisnummerError">Voer een geldig huisnummer in</div>
         </div>
+        <div class="bod-field">
+  <label for="bodToevoeging">Toevoeging</label>
+  <input type="text" id="bodToevoeging" placeholder="A" maxlength="10" />
+</div>
       </div>
     </div>
 
@@ -401,13 +405,15 @@
     if (step === 1) {
       var pc = document.getElementById('bodPostcode').value.trim();
       var hn = document.getElementById('bodHuisnummer').value.trim();
+      var toevoeging = document.getElementById('bodToevoeging').value.trim();
       var pcValid = /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/.test(pc);
       var hnValid = hn !== '' && parseInt(hn) > 0;
+      var toevoegingValid = toevoeging === '' || /^[A-Za-z0-9\s-]{1,10}$/.test(toevoeging);
       showErr('bodPostcodeError', !pcValid);
       setInputError('bodPostcode', !pcValid);
       showErr('bodHuisnummerError', !hnValid);
       setInputError('bodHuisnummer', !hnValid);
-      valid = pcValid && hnValid;
+      valid = pcValid && hnValid && toevoegingValid;
     }
 
     if (step === 2) {
@@ -482,6 +488,7 @@
     var params = new URLSearchParams();
     params.append('postcode', document.getElementById('bodPostcode').value.trim());
     params.append('house_number', document.getElementById('bodHuisnummer').value.trim());
+    params.append('addition',document.getElementById('bodToevoeging').value.trim());
     params.append('funda_status', document.querySelector('input[name="funda"]:checked').value);
     params.append('property_condition', document.querySelector('input[name="condition"]:checked').value);
     params.append('selling_reason', document.querySelector('input[name="reason"]:checked').value);
