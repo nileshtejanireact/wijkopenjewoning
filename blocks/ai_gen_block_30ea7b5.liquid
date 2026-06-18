@@ -621,7 +621,7 @@ const huisnummer = huisnummerField ? huisnummerField.value.trim() : '';
 const toevoeging = toevoegingField ? toevoegingField.value.trim() : '';
 
 const postcodeRegex = /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/;
-
+/*
 if (!postcodeRegex.test(postcode)) {
   alert('Voer een geldige postcode in');
   return;
@@ -635,7 +635,7 @@ if (!/^\d+$/.test(huisnummer) || parseInt(huisnummer) <= 0) {
 if (toevoeging && !/^[A-Za-z0-9\s-]{1,10}$/.test(toevoeging)) {
   alert('Voer een geldige toevoeging in');
   return;
-}
+}*/
 
 sessionStorage.setItem('postcode', postcode);
 sessionStorage.setItem('huisnummer', huisnummer);
