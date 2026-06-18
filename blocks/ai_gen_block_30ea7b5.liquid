@@ -321,6 +321,7 @@
             </div>
           {% endif %}
         </div>
+        <div class="error-message" id="heroError"></div>
       </form>
     </div>
   </div>
@@ -600,7 +601,7 @@
   ]
 }
 {% endschema %}
- 
+
 <script>
 document.getElementById('heroForm').addEventListener('submit', function(e) {
   e.preventDefault();
