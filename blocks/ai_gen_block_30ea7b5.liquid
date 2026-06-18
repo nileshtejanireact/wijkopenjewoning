@@ -600,3 +600,23 @@
   ]
 }
 {% endschema %}
+ 
+<script>
+document.getElementById('heroForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const postcode = document.querySelector('[name="postal_code"]').value;
+  const huisnummer = document.querySelector('[name="house_number"]').value;
+  const toevoeging = document.querySelector('[name="addition"]').value;
+
+  const params = new URLSearchParams({
+    postcode,
+    huisnummer,
+    toevoeging
+  });
+
+  window.location.href =
+    'https://wijkopenjewoning.nl/pages/bod-aanvragen?' +
+    params.toString();
+});
+</script>
