@@ -1,22 +1,39 @@
 <style>
-    .bod-page-bg{
-  background: linear-gradient(
-    180deg,
-    #f5f7f8 0%,
-    #eef2f3 100%
-  );
-  min-height: 100vh;
-  padding: 80px 20px;
+  .bod-page-bg{
+  position:relative;
+  min-height:100vh;
+
+  background-image:url('https://wijkopenjewoning.nl/cdn/shop/files/dutch-home-real-estate-hero.png');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:60px 20px;
 }
 
+.bod-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+}
 
-  .bod-form-wrapper {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #1a1a1a;
-  }
+.bod-form-wrapper{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:750px;
+}
+
+.bod-card{
+  background:#fff;
+  border-radius:24px;
+  padding:50px;
+  box-shadow:0 20px 80px rgba(0,0,0,.15);
+}
 
   .bod-progress {
     text-align: center;
@@ -41,13 +58,7 @@
     transition: width 0.4s ease;
   }
 
-  .bod-card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.09);
-    padding: 36px 40px;
-    margin-bottom: 24px;
-  }
+ 
 
   @media (max-width: 600px) {
     .bod-card { padding: 24px 18px; }
