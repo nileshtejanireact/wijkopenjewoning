@@ -1,6 +1,886 @@
+{% doc %}
+  @prompt
+    Fix the multi-step "Bod aanvragen" form block. Make these changes: 1. Change all form field names from Shopify contact format (e.g. contact[naam]) to plain names (e.g. naam, email, telefoon, etc.) 2. Change the form action to POST to external URL: https://www.greatwebdev.com/wijkopenjewoning.php 3. Fix the final review/summary step so it correctly displays all values the user filled in previous steps (currently showing blank)
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-multistep-form-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-multistep-form__progress-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .ai-multistep-form__progress-line-{{ ai_gen_id }} {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: {{ block.settings.progress_inactive_color }};
+    z-index: 0;
+  }
+
+  .ai-multistep-form__progress-fill-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: {{ block.settings.progress_active_color }};
+    transition: width 0.3s ease;
+  }
+
+  .ai-multistep-form__step-indicator-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  .ai-multistep-form__step-circle-{{ ai_gen_id }} {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: {{ block.settings.progress_inactive_color }};
+    color: {{ block.settings.text_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-multistep-form__step-indicator-{{ ai_gen_id }}.active .ai-multistep-form__step-circle-{{ ai_gen_id }},
+  .ai-multistep-form__step-indicator-{{ ai_gen_id }}.completed .ai-multistep-form__step-circle-{{ ai_gen_id }} {
+    background-color: {{ block.settings.progress_active_color }};
+    color: {{ block.settings.progress_text_color }};
+  }
+
+  .ai-multistep-form__step-label-{{ ai_gen_id }} {
+    font-size: 12px;
+    color: {{ block.settings.text_color }};
+    text-align: center;
+  }
+
+  .ai-multistep-form__content-{{ ai_gen_id }} {
+    min-height: 300px;
+  }
+
+  .ai-multistep-form__step-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-multistep-form__step-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-multistep-form__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin-bottom: 20px;
+  }
+
+  .ai-multistep-form__field-{{ ai_gen_id }} {
+    margin-bottom: 20px;
+  }
+
+  .ai-multistep-form__label-{{ ai_gen_id }} {
+    display: block;
+    margin-bottom: 8px;
+    color: {{ block.settings.text_color }};
+    font-weight: 500;
+  }
+
+  .ai-multistep-form__input-{{ ai_gen_id }},
+  .ai-multistep-form__textarea-{{ ai_gen_id }},
+  .ai-multistep-form__select-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: 16px;
+    background-color: {{ block.settings.input_background_color }};
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-multistep-form__textarea-{{ ai_gen_id }} {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .ai-multistep-form__radio-group-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ai-multistep-form__radio-option-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-multistep-form__radio-option-{{ ai_gen_id }} input[type="radio"] {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ai-multistep-form__buttons-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 10px;
+  }
+
+  .ai-multistep-form__button-{{ ai_gen_id }} {
+    padding: 12px 24px;
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-multistep-form__button-primary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+  }
+
+  .ai-multistep-form__button-primary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-multistep-form__button-secondary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.button_secondary_color }};
+    color: {{ block.settings.button_secondary_text_color }};
+  }
+
+  .ai-multistep-form__button-secondary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_secondary_hover_color }};
+  }
+
+  .ai-multistep-form__summary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.summary_background_color }};
+    padding: 20px;
+    border-radius: {{ block.settings.input_border_radius }}px;
+    margin-bottom: 20px;
+  }
+
+  .ai-multistep-form__summary-item-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid {{ block.settings.input_border_color }};
+  }
+
+  .ai-multistep-form__summary-item-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+
+  .ai-multistep-form__summary-label-{{ ai_gen_id }} {
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-multistep-form__summary-value-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-multistep-form__error-{{ ai_gen_id }} {
+    color: {{ block.settings.error_color }};
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-multistep-form-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-multistep-form__step-label-{{ ai_gen_id }} {
+      font-size: 10px;
+    }
+
+    .ai-multistep-form__buttons-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+  }
+{% endstyle %}
+
+<multi-step-form-{{ ai_gen_id }} class="ai-multistep-form-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-multistep-form__progress-{{ ai_gen_id }}">
+    <div class="ai-multistep-form__progress-line-{{ ai_gen_id }}">
+      <div class="ai-multistep-form__progress-fill-{{ ai_gen_id }}" data-progress-fill></div>
+    </div>
+    <div class="ai-multistep-form__step-indicator-{{ ai_gen_id }} active" data-step-indicator="1">
+      <div class="ai-multistep-form__step-circle-{{ ai_gen_id }}">1</div>
+      <div class="ai-multistep-form__step-label-{{ ai_gen_id }}">{{ block.settings.step1_label }}</div>
+    </div>
+    <div class="ai-multistep-form__step-indicator-{{ ai_gen_id }}" data-step-indicator="2">
+      <div class="ai-multistep-form__step-circle-{{ ai_gen_id }}">2</div>
+      <div class="ai-multistep-form__step-label-{{ ai_gen_id }}">{{ block.settings.step2_label }}</div>
+    </div>
+    <div class="ai-multistep-form__step-indicator-{{ ai_gen_id }}" data-step-indicator="3">
+      <div class="ai-multistep-form__step-circle-{{ ai_gen_id }}">3</div>
+      <div class="ai-multistep-form__step-label-{{ ai_gen_id }}">{{ block.settings.step3_label }}</div>
+    </div>
+    <div class="ai-multistep-form__step-indicator-{{ ai_gen_id }}" data-step-indicator="4">
+      <div class="ai-multistep-form__step-circle-{{ ai_gen_id }}">4</div>
+      <div class="ai-multistep-form__step-label-{{ ai_gen_id }}">{{ block.settings.step4_label }}</div>
+    </div>
+  </div>
+
+  <form action="https://www.greatwebdev.com/wijkopenjewoning.php" method="POST" class="ai-multistep-form__form-{{ ai_gen_id }}" data-multistep-form>
+    <div class="ai-multistep-form__content-{{ ai_gen_id }}">
+      <div class="ai-multistep-form__step-{{ ai_gen_id }} active" data-step="1">
+        <h3 class="ai-multistep-form__title-{{ ai_gen_id }}">{{ block.settings.step1_title }}</h3>
+        
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="naam-{{ ai_gen_id }}">Naam *</label>
+          <input 
+            type="text" 
+            id="naam-{{ ai_gen_id }}" 
+            name="naam" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="naam"
+          >
+          <div class="ai-multistep-form__error-{{ ai_gen_id }}" data-error="naam"></div>
+        </div>
+
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="email-{{ ai_gen_id }}">E-mail *</label>
+          <input 
+            type="email" 
+            id="email-{{ ai_gen_id }}" 
+            name="email" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="email"
+          >
+          <div class="ai-multistep-form__error-{{ ai_gen_id }}" data-error="email"></div>
+        </div>
+
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="telefoon-{{ ai_gen_id }}">Telefoon *</label>
+          <input 
+            type="tel" 
+            id="telefoon-{{ ai_gen_id }}" 
+            name="telefoon" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="telefoon"
+          >
+          <div class="ai-multistep-form__error-{{ ai_gen_id }}" data-error="telefoon"></div>
+        </div>
+      </div>
+
+      <div class="ai-multistep-form__step-{{ ai_gen_id }}" data-step="2">
+        <h3 class="ai-multistep-form__title-{{ ai_gen_id }}">{{ block.settings.step2_title }}</h3>
+        
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="adres-{{ ai_gen_id }}">Adres *</label>
+          <input 
+            type="text" 
+            id="adres-{{ ai_gen_id }}" 
+            name="adres" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="adres"
+          >
+          <div class="ai-multistep-form__error-{{ ai_gen_id }}" data-error="adres"></div>
+        </div>
+
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="postcode-{{ ai_gen_id }}">Postcode *</label>
+          <input 
+            type="text" 
+            id="postcode-{{ ai_gen_id }}" 
+            name="postcode" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="postcode"
+          >
+          <div class="ai-multistep-form__error-{{ ai_gen_id }}" data-error="postcode"></div>
+        </div>
+
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="plaats-{{ ai_gen_id }}">Plaats *</label>
+          <input 
+            type="text" 
+            id="plaats-{{ ai_gen_id }}" 
+            name="plaats" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}" 
+            required
+            data-field="plaats"
+          >
+          <div class="ai-multistep-form__error-{{ ai_gen_id }}" data-error="plaats"></div>
+        </div>
+      </div>
+
+      <div class="ai-multistep-form__step-{{ ai_gen_id }}" data-step="3">
+        <h3 class="ai-multistep-form__title-{{ ai_gen_id }}">{{ block.settings.step3_title }}</h3>
+        
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}">Type woning *</label>
+          <div class="ai-multistep-form__radio-group-{{ ai_gen_id }}">
+            <label class="ai-multistep-form__radio-option-{{ ai_gen_id }}">
+              <input type="radio" name="type_woning" value="Appartement" required data-field="type_woning">
+              <span>Appartement</span>
+            </label>
+            <label class="ai-multistep-form__radio-option-{{ ai_gen_id }}">
+              <input type="radio" name="type_woning" value="Tussenwoning" data-field="type_woning">
+              <span>Tussenwoning</span>
+            </label>
+            <label class="ai-multistep-form__radio-option-{{ ai_gen_id }}">
+              <input type="radio" name="type_woning" value="Hoekwoning" data-field="type_woning">
+              <span>Hoekwoning</span>
+            </label>
+            <label class="ai-multistep-form__radio-option-{{ ai_gen_id }}">
+              <input type="radio" name="type_woning" value="Vrijstaand" data-field="type_woning">
+              <span>Vrijstaand</span>
+            </label>
+          </div>
+          <div class="ai-multistep-form__error-{{ ai_gen_id }}" data-error="type_woning"></div>
+        </div>
+
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="bouwjaar-{{ ai_gen_id }}">Bouwjaar</label>
+          <input 
+            type="text" 
+            id="bouwjaar-{{ ai_gen_id }}" 
+            name="bouwjaar" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}"
+            data-field="bouwjaar"
+          >
+        </div>
+
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="oppervlakte-{{ ai_gen_id }}">Oppervlakte (m²)</label>
+          <input 
+            type="text" 
+            id="oppervlakte-{{ ai_gen_id }}" 
+            name="oppervlakte" 
+            class="ai-multistep-form__input-{{ ai_gen_id }}"
+            data-field="oppervlakte"
+          >
+        </div>
+
+        <div class="ai-multistep-form__field-{{ ai_gen_id }}">
+          <label class="ai-multistep-form__label-{{ ai_gen_id }}" for="opmerkingen-{{ ai_gen_id }}">Opmerkingen</label>
+          <textarea 
+            id="opmerkingen-{{ ai_gen_id }}" 
+            name="opmerkingen" 
+            class="ai-multistep-form__textarea-{{ ai_gen_id }}"
+            data-field="opmerkingen"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="ai-multistep-form__step-{{ ai_gen_id }}" data-step="4">
+        <h3 class="ai-multistep-form__title-{{ ai_gen_id }}">{{ block.settings.step4_title }}</h3>
+        
+        <div class="ai-multistep-form__summary-{{ ai_gen_id }}">
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Naam:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="naam"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">E-mail:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="email"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Telefoon:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="telefoon"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Adres:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="adres"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Postcode:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="postcode"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Plaats:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="plaats"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Type woning:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="type_woning"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Bouwjaar:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="bouwjaar"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Oppervlakte:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="oppervlakte"></span>
+          </div>
+          <div class="ai-multistep-form__summary-item-{{ ai_gen_id }}">
+            <span class="ai-multistep-form__summary-label-{{ ai_gen_id }}">Opmerkingen:</span>
+            <span class="ai-multistep-form__summary-value-{{ ai_gen_id }}" data-summary="opmerkingen"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-multistep-form__buttons-{{ ai_gen_id }}">
+      <button 
+        type="button" 
+        class="ai-multistep-form__button-{{ ai_gen_id }} ai-multistep-form__button-secondary-{{ ai_gen_id }}" 
+        data-prev-btn
+        style="display: none;"
+      >
+        {{ block.settings.prev_button_text }}
+      </button>
+      <button 
+        type="button" 
+        class="ai-multistep-form__button-{{ ai_gen_id }} ai-multistep-form__button-primary-{{ ai_gen_id }}" 
+        data-next-btn
+      >
+        {{ block.settings.next_button_text }}
+      </button>
+      <button 
+        type="submit" 
+        class="ai-multistep-form__button-{{ ai_gen_id }} ai-multistep-form__button-primary-{{ ai_gen_id }}" 
+        data-submit-btn
+        style="display: none;"
+      >
+        {{ block.settings.submit_button_text }}
+      </button>
+    </div>
+  </form>
+</multi-step-form-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MultiStepForm{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentStep = 1;
+        this.totalSteps = 4;
+        this.formData = {};
+      }
+
+      connectedCallback() {
+        this.form = this.querySelector('[data-multistep-form]');
+        this.steps = this.querySelectorAll('[data-step]');
+        this.stepIndicators = this.querySelectorAll('[data-step-indicator]');
+        this.progressFill = this.querySelector('[data-progress-fill]');
+        this.nextBtn = this.querySelector('[data-next-btn]');
+        this.prevBtn = this.querySelector('[data-prev-btn]');
+        this.submitBtn = this.querySelector('[data-submit-btn]');
+        this.fields = this.querySelectorAll('[data-field]');
+
+        this.setupEventListeners();
+        this.updateProgress();
+      }
+
+      setupEventListeners() {
+        this.nextBtn.addEventListener('click', () => this.nextStep());
+        this.prevBtn.addEventListener('click', () => this.prevStep());
+        
+        this.fields.forEach(field => {
+          field.addEventListener('change', (e) => this.saveFieldData(e.target));
+          field.addEventListener('input', (e) => this.saveFieldData(e.target));
+        });
+      }
+
+      saveFieldData(field) {
+        const fieldName = field.getAttribute('data-field');
+        if (field.type === 'radio') {
+          if (field.checked) {
+            this.formData[fieldName] = field.value;
+          }
+        } else {
+          this.formData[fieldName] = field.value;
+        }
+      }
+
+      validateStep() {
+        const currentStepElement = this.querySelector(`[data-step="${this.currentStep}"]`);
+        const requiredFields = currentStepElement.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+          const errorElement = currentStepElement.querySelector(`[data-error="${field.getAttribute('data-field')}"]`);
+          
+          if (field.type === 'radio') {
+            const radioGroup = currentStepElement.querySelectorAll(`[name="${field.name}"]`);
+            const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+            
+            if (!isChecked) {
+              isValid = false;
+              if (errorElement) {
+                errorElement.textContent = 'Dit veld is verplicht';
+              }
+            } else {
+              if (errorElement) {
+                errorElement.textContent = '';
+              }
+            }
+          } else {
+            if (!field.value.trim()) {
+              isValid = false;
+              if (errorElement) {
+                errorElement.textContent = 'Dit veld is verplicht';
+              }
+            } else {
+              if (errorElement) {
+                errorElement.textContent = '';
+              }
+            }
+          }
+        });
+
+        return isValid;
+      }
+
+      nextStep() {
+        if (!this.validateStep()) {
+          return;
+        }
+
+        if (this.currentStep < this.totalSteps) {
+          this.currentStep++;
+          this.updateSteps();
+          this.updateProgress();
+          this.updateButtons();
+          
+          if (this.currentStep === this.totalSteps) {
+            this.updateSummary();
+          }
+        }
+      }
+
+      prevStep() {
+        if (this.currentStep > 1) {
+          this.currentStep--;
+          this.updateSteps();
+          this.updateProgress();
+          this.updateButtons();
+        }
+      }
+
+      updateSteps() {
+        this.steps.forEach((step, index) => {
+          if (index + 1 === this.currentStep) {
+            step.classList.add('active');
+          } else {
+            step.classList.remove('active');
+          }
+        });
+
+        this.stepIndicators.forEach((indicator, index) => {
+          if (index + 1 < this.currentStep) {
+            indicator.classList.add('completed');
+            indicator.classList.remove('active');
+          } else if (index + 1 === this.currentStep) {
+            indicator.classList.add('active');
+            indicator.classList.remove('completed');
+          } else {
+            indicator.classList.remove('active', 'completed');
+          }
+        });
+      }
+
+      updateProgress() {
+        const progress = ((this.currentStep - 1) / (this.totalSteps - 1)) * 100;
+        this.progressFill.style.width = progress + '%';
+      }
+
+      updateButtons() {
+        if (this.currentStep === 1) {
+          this.prevBtn.style.display = 'none';
+        } else {
+          this.prevBtn.style.display = 'block';
+        }
+
+        if (this.currentStep === this.totalSteps) {
+          this.nextBtn.style.display = 'none';
+          this.submitBtn.style.display = 'block';
+        } else {
+          this.nextBtn.style.display = 'block';
+          this.submitBtn.style.display = 'none';
+        }
+      }
+
+      updateSummary() {
+        const summaryElements = this.querySelectorAll('[data-summary]');
+        
+        summaryElements.forEach(element => {
+          const fieldName = element.getAttribute('data-summary');
+          const value = this.formData[fieldName] || '-';
+          element.textContent = value;
+        });
+      }
+    }
+
+    customElements.define('multi-step-form-{{ ai_gen_id }}', MultiStepForm{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Bod aanvragen",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Step labels"
+    },
+    {
+      "type": "text",
+      "id": "step1_label",
+      "label": "Step 1 label",
+      "default": "Persoonlijk"
+    },
+    {
+      "type": "text",
+      "id": "step1_title",
+      "label": "Step 1 title",
+      "default": "Persoonlijke gegevens"
+    },
+    {
+      "type": "text",
+      "id": "step2_label",
+      "label": "Step 2 label",
+      "default": "Adres"
+    },
+    {
+      "type": "text",
+      "id": "step2_title",
+      "label": "Step 2 title",
+      "default": "Woninggegevens"
+    },
+    {
+      "type": "text",
+      "id": "step3_label",
+      "label": "Step 3 label",
+      "default": "Details"
+    },
+    {
+      "type": "text",
+      "id": "step3_title",
+      "label": "Step 3 title",
+      "default": "Aanvullende informatie"
+    },
+    {
+      "type": "text",
+      "id": "step4_label",
+      "label": "Step 4 label",
+      "default": "Overzicht"
+    },
+    {
+      "type": "text",
+      "id": "step4_title",
+      "label": "Step 4 title",
+      "default": "Controleer uw gegevens"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "next_button_text",
+      "label": "Next button text",
+      "default": "Volgende"
+    },
+    {
+      "type": "text",
+      "id": "prev_button_text",
+      "label": "Previous button text",
+      "default": "Vorige"
+    },
+    {
+      "type": "text",
+      "id": "submit_button_text",
+      "label": "Submit button text",
+      "default": "Verstuur aanvraag"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "progress_active_color",
+      "label": "Progress active",
+      "default": "#1863dc"
+    },
+    {
+      "type": "color",
+      "id": "progress_inactive_color",
+      "label": "Progress inactive",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "progress_text_color",
+      "label": "Progress text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button background",
+      "default": "#fc5900"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover background",
+      "default": "#e04f00"
+    },
+    {
+      "type": "color",
+      "id": "button_secondary_color",
+      "label": "Secondary button background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "button_secondary_text_color",
+      "label": "Secondary button text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_secondary_hover_color",
+      "label": "Secondary button hover",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "input_background_color",
+      "label": "Input background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border",
+      "default": "#dfdfdf"
+    },
+    {
+      "type": "color",
+      "id": "summary_background_color",
+      "label": "Summary background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "error_color",
+      "label": "Error",
+      "default": "#d82c0d"
+    },
+    {
+      "type": "header",
+      "content": "Input style"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bod aanvragen"
+    }
+  ]
+}
 {% endschema %}
