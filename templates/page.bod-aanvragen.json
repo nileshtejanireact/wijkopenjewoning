@@ -56,9 +56,15 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "bod_aanvragen_ng7FKz": {
+      "type": "bod-aanvragen",
+      "name": "Bod Aanvragen",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "bod_aanvragen_ng7FKz"
   ]
 }
