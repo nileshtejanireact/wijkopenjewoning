@@ -641,16 +641,23 @@ document.getElementById('heroRedirectForm').addEventListener('submit', function(
       showError('Voer een geldige toevoeging in');
       return;
     }
+   sessionStorage.setItem(
+    'postcode',
+    document.getElementById('postal_code').value
+  );
 
-    const params = new URLSearchParams({
-      postcode: postcode,
-      huisnummer: huisnummer,
-      toevoeging: toevoeging
-    });
+  sessionStorage.setItem(
+    'huisnummer',
+    document.getElementById('house_number').value
+  );
 
-    window.location.href =
-      '/pages/bod-aanvragen?' +
-      params.toString();
+  sessionStorage.setItem(
+    'toevoeging',
+    document.getElementById('addition').value
+  );
+
+  window.location.href =
+    '/pages/bod-aanvragen';
   });
 
 function showError(message) {
