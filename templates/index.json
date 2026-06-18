@@ -593,7 +593,7 @@
             "broker_item_6": "Risk of problems later on due to hidden defects",
             "broker_item_7": "A lot of hassle stress and uncertainty about the sale",
             "button_label": "Vraag Nu Een Bod Aan",
-            "button_link": "",
+            "button_link": "/pages/bod-aanvragen",
             "button_bg": "#fc5900",
             "button_hover_bg": "#fc5900",
             "button_text_color": "#ffffff",
@@ -721,49 +721,6 @@
     },
     "1781530762acbce573": {
       "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_8b00579_6Mk3Yi": {
-          "type": "ai_gen_block_8b00579",
-          "settings": {
-            "form_title": "Vraag een bod aan op uw woning",
-            "badge_1_text": "Gratis",
-            "badge_2_text": "Vrijblijvend",
-            "badge_3_text": "Snel",
-            "thank_you_title": "Bedankt voor uw aanvraag!",
-            "thank_you_message": "Wij nemen binnen 24 uur contact met u op",
-            "desktop_width_percent": 100,
-            "border_radius": 16,
-            "background_color": "#ffffff",
-            "title_color": "#fc5900",
-            "text_color": "#333333",
-            "primary_color": "#fc5900",
-            "primary_hover_color": "#fc5900",
-            "success_color": "#2d9f5d",
-            "error_color": "#d32f2f",
-            "badge_bg_color": "#fdf3ea",
-            "badge_text_color": "#fc5900",
-            "progress_bg_color": "#e0e0e0",
-            "progress_fill_color": "#fc5900",
-            "input_bg_color": "#ffffff",
-            "input_border_color": "#d0d0d0",
-            "input_border_radius": 8,
-            "card_bg_color": "#ffffff",
-            "card_border_color": "#e0e0e0",
-            "card_hover_bg_color": "#f5f9fa",
-            "card_selected_bg_color": "#e8f4f8",
-            "card_border_radius": 12,
-            "button_text_color": "#ffffff",
-            "secondary_button_bg": "#f5f5f5",
-            "button_border_radius": 8,
-            "summary_bg_color": "#f9f9f9",
-            "title_size": 36
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_8b00579_6Mk3Yi"
-      ],
       "disabled": true,
       "settings": {
         "content_direction": "column",
