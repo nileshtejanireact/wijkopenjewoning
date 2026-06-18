@@ -603,21 +603,57 @@
 {% endschema %}
 
 <script>
-document.getElementById('heroForm').addEventListener('submit', function(e) {
-  e.preventDefault();
 
-  const postcode = document.querySelector('[name="postal_code"]').value;
-  const huisnummer = document.querySelector('[name="house_number"]').value;
-  const toevoeging = document.querySelector('[name="addition"]').value;
+document.getElementById('heroRedirectForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const postcode =
+      document.getElementById('postal_code')
+      .value.trim();
 
-  const params = new URLSearchParams({
-    postcode,
-    huisnummer,
-    toevoeging
+    const huisnummer =
+      document.getElementById('house_number')
+      .value.trim();
+
+    const toevoeging =
+      document.getElementById('addition')
+      .value.trim();
+
+    const postcodeRegex =
+      /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/;
+
+    if (!postcodeRegex.test(postcode)) {
+      showError('Voer een geldige postcode in');
+      return;
+    }
+
+    if (
+      !/^\d+$/.test(huisnummer) ||
+      parseInt(huisnummer) <= 0
+    ) {
+      showError('Voer een geldig huisnummer in');
+      return;
+    }
+
+    if (
+      toevoeging &&
+      !/^[A-Za-z0-9\s-]{1,10}$/.test(toevoeging)
+    ) {
+      showError('Voer een geldige toevoeging in');
+      return;
+    }
+
+    const params = new URLSearchParams({
+      postcode: postcode,
+      huisnummer: huisnummer,
+      toevoeging: toevoeging
+    });
+
+    window.location.href =
+      '/pages/bod-aanvragen?' +
+      params.toString();
   });
 
-  window.location.href =
-    'https://wijkopenjewoning.nl/pages/bod-aanvragen?' +
-    params.toString();
-});
+function showError(message) {
+  document.getElementById('heroError').innerHTML = message;
+}
 </script>
