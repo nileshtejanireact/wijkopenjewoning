@@ -249,14 +249,14 @@
     </div>
 
     <div class="hero-form-card-{{ gen_id }}">
-      {%- form 'contact' -%}
+     <form>
         <input type="hidden" name="contact[subject]" value="{{ block.settings.form_subject }}">
         
         <div class="hero-form-row-{{ gen_id }}">
           <div class="hero-form-input-wrapper-{{ gen_id }}">
             <input
               type="text"
-              name="contact[postal_code]"
+              name="postal_code"
               class="hero-form-input-{{ gen_id }}"
               placeholder="{{ block.settings.postal_code_placeholder }}"
               required
@@ -266,7 +266,7 @@
           <div class="hero-form-input-wrapper-{{ gen_id }}">
             <input
               type="text"
-              name="contact[house_number]"
+              name="house_number"
               class="hero-form-input-{{ gen_id }}"
               placeholder="{{ block.settings.house_number_placeholder }}"
               required
@@ -276,7 +276,7 @@
           <div class="hero-form-input-wrapper-{{ gen_id }}">
             <input
               type="text"
-              name="contact[addition]"
+              name="addition"
               class="hero-form-input-{{ gen_id }}"
               placeholder="{{ block.settings.addition_placeholder }}"
             >
@@ -323,7 +323,7 @@
             </div>
           {% endif %}
         </div>
-      {%- endform -%}
+      </form>
     </div>
   </div>
 </div>
