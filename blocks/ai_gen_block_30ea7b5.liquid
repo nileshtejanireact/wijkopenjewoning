@@ -603,63 +603,47 @@
 {% endschema %}
 
 <script>
-document.getElementById('heroRedirectForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const postcode =
-      document.getElementById('postal_code')
-      .value.trim();
-
-    const huisnummer =
-      document.getElementById('house_number')
-      .value.trim();
-
-    const toevoeging =
-      document.getElementById('addition')
-      .value.trim();
-
-    const postcodeRegex =
-      /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/;
-
-    if (!postcodeRegex.test(postcode)) {
-      showError('Voer een geldige postcode in');
-      return;
-    }
-
-    if (
-      !/^\d+$/.test(huisnummer) ||
-      parseInt(huisnummer) <= 0
-    ) {
-      showError('Voer een geldig huisnummer in');
-      return;
-    }
-
-    if (
-      toevoeging &&
-      !/^[A-Za-z0-9\s-]{1,10}$/.test(toevoeging)
-    ) {
-      showError('Voer een geldige toevoeging in');
-      return;
-    }
-   sessionStorage.setItem(
-    'postcode',
-    document.getElementById('postal_code').value
-  );
-
-  sessionStorage.setItem(
-    'huisnummer',
-    document.getElementById('house_number').value
-  );
-
-  sessionStorage.setItem(
-    'toevoeging',
-    document.getElementById('addition').value
-  );
-
-  window.location.href =
-    '/pages/bod-aanvragen';
-  });
-
-function showError(message) {
-  document.getElementById('heroError').innerHTML = message;
+document.addEventListener('DOMContentLoaded', function() {
+const form = document.getElementById('heroRedirectForm');
+if (!form) {
+console.log('Form not found');
+return;
 }
+
+form.addEventListener('submit', function(e) {
+e.preventDefault();
+const postcodeField = document.querySelector('[name="contact[postal_code]"]');
+const huisnummerField = document.querySelector('[name="contact[house_number]"]');
+const toevoegingField = document.querySelector('[name="contact[addition]"]');
+
+const postcode = postcodeField ? postcodeField.value.trim() : '';
+const huisnummer = huisnummerField ? huisnummerField.value.trim() : '';
+const toevoeging = toevoegingField ? toevoegingField.value.trim() : '';
+
+const postcodeRegex = /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/;
+
+if (!postcodeRegex.test(postcode)) {
+  alert('Voer een geldige postcode in');
+  return;
+}
+
+if (!/^\d+$/.test(huisnummer) || parseInt(huisnummer) <= 0) {
+  alert('Voer een geldig huisnummer in');
+  return;
+}
+
+if (toevoeging && !/^[A-Za-z0-9\s-]{1,10}$/.test(toevoeging)) {
+  alert('Voer een geldige toevoeging in');
+  return;
+}
+
+sessionStorage.setItem('postcode', postcode);
+sessionStorage.setItem('huisnummer', huisnummer);
+sessionStorage.setItem('toevoeging', toevoeging);
+
+window.location.href = '/pages/bod-aanvragen';
+});
+
+});
+
 </script>
