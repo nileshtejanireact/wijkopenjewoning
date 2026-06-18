@@ -612,9 +612,9 @@ return;
 
 form.addEventListener('submit', function(e) {
 e.preventDefault();
-const postcodeField = document.querySelector('[name="contact[postal_code]"]');
-const huisnummerField = document.querySelector('[name="contact[house_number]"]');
-const toevoegingField = document.querySelector('[name="contact[addition]"]');
+const postcodeField = document.querySelector('[name="postal_code"]');
+const huisnummerField = document.querySelector('[name="house_number"]');
+const toevoegingField = document.querySelector('[name="addition"]');
 
 const postcode = postcodeField ? postcodeField.value.trim() : '';
 const huisnummer = huisnummerField ? huisnummerField.value.trim() : '';
