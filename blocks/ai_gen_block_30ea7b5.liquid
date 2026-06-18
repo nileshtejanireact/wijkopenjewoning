@@ -249,7 +249,7 @@
     </div>
 
     <div class="hero-form-card-{{ gen_id }}">
-     <form>
+     <form id="heroRedirectForm">
         <div class="hero-form-row-{{ gen_id }}">
           <div class="hero-form-input-wrapper-{{ gen_id }}">
             <input
@@ -603,7 +603,6 @@
 {% endschema %}
 
 <script>
-
 document.getElementById('heroRedirectForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const postcode =
