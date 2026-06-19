@@ -344,7 +344,7 @@
         "ai_gen_block_7bb66ef_LyYiFf": {
           "type": "ai_gen_block_7bb66ef",
           "settings": {
-            "image": "shopify://shop_images/1695585980070-m7Vb3Qz2LWF7Bo9y.avif",
+            "image": "shopify://shop_images/hf_20260619_071811_7f4aed42-c6e1-43b9-a0b4-cf163f7a5e2a.png",
             "image_border_radius": 12,
             "heading": "Hoe Werkt Het?",
             "heading_size": 40,
@@ -372,7 +372,7 @@
             "step_title_color": "#000000",
             "step_description_size": 16,
             "step_description_color": "#000000",
-            "button_text": "Vraag Nu Een Bod Aan",
+            "button_text": "Vraag nu een bod aan",
             "button_link": "/pages/bod-aanvragen",
             "button_background": "#fc5900",
             "button_hover_background": "#fc5900",
@@ -429,22 +429,23 @@
       "blocks": {
         "ai_gen_block_03f0e26_HdJBWx": {
           "type": "ai_gen_block_03f0e26",
+          "name": "Wat anderen over ons zeggen",
           "settings": {
-            "review_text_1": "“Binnen één week geregeld. Geen gedoe met makelaars, gewoon eerlijk en snel.”",
+            "review_text_1": "Snel ontzorgt en kreeg direct een goed bod",
             "author_initial_1": "N",
             "author_name_1": "Nisa steen, Zutphen",
             "author_location_1": "Geverifieerd klant",
-            "review_text_2": "“Geen tijd en budget voor het opknappen dit was de ideale oplossing!”",
+            "review_text_2": "Geen tijd en budget voor het opknappen dit was de ideale oplossing!",
             "author_initial_2": "L",
             "author_name_2": "Levi Noorden, Warnsveld",
             "author_location_2": "Geverifieerd klant",
-            "review_text_3": "\"Fijne begeleiding en snel contact!\"",
+            "review_text_3": "Fijne begeleiding en snel contact!",
             "author_initial_3": "E",
             "author_name_3": "Emma Williams, Leesten",
             "author_location_3": "Geverifieerd klant",
-            "review_text_4": "“Binnen één week geregeld. Geen gedoe met makelaars, gewoon eerlijk en snel.”",
+            "review_text_4": "Binnen één week geregeld. Geen gedoe met makelaars, gewoon eerlijk en snel.",
             "author_initial_4": "N",
-            "author_name_4": "Nisa steen, Zutphen",
+            "author_name_4": "Jan den broek, Deventer",
             "author_location_4": "Geverifieerd klant"
           },
           "blocks": {}
