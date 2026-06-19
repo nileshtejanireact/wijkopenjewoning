@@ -581,6 +581,7 @@
       body: params.toString()
     })
     .then(function(res) {
+      console.log(res)
       if (!res.ok) throw new Error('Server error');
       for (var i = 1; i <= totalSteps; i++) {
         var el = document.getElementById('bodStep' + i);

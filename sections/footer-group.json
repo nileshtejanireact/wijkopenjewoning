@@ -149,6 +149,7 @@
         "menu_bxPEzG": {
           "type": "menu",
           "name": "t:names.menu",
+          "disabled": true,
           "settings": {
             "menu": "footer-menu-1",
             "heading": "Snelle Links",

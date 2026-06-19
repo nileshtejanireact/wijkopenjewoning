@@ -113,7 +113,7 @@
             "background_image": "shopify://shop_images/dutch-home-real-estate-hero.png",
             "overlay_color": "#1a1a1a",
             "overlay_opacity": 35,
-            "heading": "<strong>Wij kopen uw vastgoed binnen 24 uur een bod!</strong>",
+            "heading": "<strong>Wij kopen uw vastgoed, binnen 24 uur een bod!</strong>",
             "heading_size": 56,
             "subheading": "Wij kopen uw woning direct zonder gedoe. Ontvang binnen 24 uur een eerlijk bod.",
             "subheading_size": 22,
@@ -431,6 +431,7 @@
           "type": "ai_gen_block_03f0e26",
           "name": "Wat anderen over ons zeggen",
           "settings": {
+            "title": "Wat anderen over ons zeggen",
             "review_text_1": "Snel ontzorgt en kreeg direct een goed bod",
             "author_initial_1": "N",
             "author_name_1": "Nisa steen, Zutphen",
