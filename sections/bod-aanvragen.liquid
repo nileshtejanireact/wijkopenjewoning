@@ -570,7 +570,7 @@
     })
     .then(function(res) {
       console.log(res)
-      {% comment %} if (!res.ok) throw new Error('Server error');
+      if (!res.ok) throw new Error('Server error');
       for (var i = 1; i <= totalSteps; i++) {
         var el = document.getElementById('bodStep' + i);
         if (el) el.classList.remove('active');
@@ -578,7 +578,7 @@
       window.location.href = 'https://wijkopenjewoning.nl/pages/thank-you';
       document.getElementById('bodNav').style.display = 'none';
       document.getElementById('bodProgressFill').style.width = '100%';
-      document.getElementById('bodProgressText').textContent = 'Aanvraag verzonden'; {% endcomment %}
+      document.getElementById('bodProgressText').textContent = 'Aanvraag verzonden';
       
     })
     .catch(function() {
