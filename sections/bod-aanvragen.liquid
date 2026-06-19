@@ -577,7 +577,7 @@
       document.getElementById('bodNav').style.display = 'none';
       document.getElementById('bodProgressFill').style.width = '100%';
       document.getElementById('bodProgressText').textContent = 'Aanvraag verzonden';
-      document.getElementById('bodSuccess').classList.add('visible');
+      window.location.href = 'https://wijkopenjewoning.nl/pages/thank-you';
     })
     .catch(function() {
       for (var i = 1; i <= totalSteps; i++) {
