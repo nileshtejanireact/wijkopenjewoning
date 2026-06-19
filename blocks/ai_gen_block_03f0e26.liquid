@@ -262,8 +262,9 @@
         {% endfor %}
       </div>
     </div>
-
-    <h2 class="testimonials-carousel-heading-{{gen_id}}">Experiences of homeowners</h2>
+     {% if section.settings.title %}
+    <h2 class="testimonials-carousel-heading-{{gen_id}}">{{section.settings.title }}</h2>
+     {% endif %}
 
     <div class="testimonials-carousel-wrapper-{{gen_id}}">
       <button 
@@ -563,6 +564,12 @@
   "name": "Experiences of homeowners",
   "tag": null,
   "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Experiences of homeowners"
+    },
     {
       "type": "header",
       "content": "Testimonial 1"
