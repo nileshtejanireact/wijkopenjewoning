@@ -262,8 +262,9 @@
         {% endfor %}
       </div>
     </div>
-     {% if section.settings.title %}
-    <h2 class="testimonials-carousel-heading-{{gen_id}}">{{section.settings.title }}</h2>
+     {% if block.settings.title %}
+    <h2 class="testimonials-carousel-heading-{{gen_id}}">
+    {{block.settings.title }}</h2>
      {% endif %}
 
     <div class="testimonials-carousel-wrapper-{{gen_id}}">
