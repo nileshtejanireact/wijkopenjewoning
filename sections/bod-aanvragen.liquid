@@ -279,7 +279,7 @@
     <div class="bod-progress-bar">
       <div class="bod-progress-fill" id="bodProgressFill" style="width:16.66%"></div>
     </div>
-    <span id="bodProgressText">Stap 1 van 6</span>
+    <span id="bodProgressText">Stap 1 van 7</span>
   </div>
 
   <div class="bod-card">
@@ -386,9 +386,19 @@
       <div class="bod-error" id="bodTimelineError">Maak een keuze</div>
     </div>
 
-    <!-- STEP 6: Contact -->
+    <!-- STEP 6: Minimum Price -->
     <div class="bod-step" id="bodStep6" role="group" aria-labelledby="bodStep6Title">
-      <h2 id="bodStep6Title">Uw contactgegevens</h2>
+      <h2 id="bodStep6Title">Wat is uw minimale richtprijs voor dit object?</h2>
+      <div class="bod-field">
+        <label for="bodMinPrice">Minimale richtprijs *</label>
+        <input type="text" id="bodMinPrice" placeholder="€ 350.000" aria-required="true" />
+        <div class="bod-error" id="bodMinPriceError">Voer een minimale richtprijs in</div>
+      </div>
+    </div>
+
+    <!-- STEP 7: Contact -->
+    <div class="bod-step" id="bodStep7" role="group" aria-labelledby="bodStep7Title">
+      <h2 id="bodStep7Title">Uw contactgegevens</h2>
       <p>Wij nemen zo snel mogelijk contact met u op om uw woning te bespreken en u een passend bod te doen. Dit bod is geheel gratis en vrijblijvend.
 
 </p>
@@ -433,7 +443,7 @@
 <script>
 (function() {
   var currentStep = 1;
-  var totalSteps = 6;
+  var totalSteps = 7;
   document.getElementById('bodPostcode').value =
     sessionStorage.getItem('postcode') || '';
 
@@ -518,6 +528,13 @@
     }
 
     if (step === 6) {
+      var price = document.getElementById('bodMinPrice').value.trim();
+      showErr('bodMinPriceError', !price);
+      setInputError('bodMinPrice', !price);
+      valid = !!price;
+    }
+
+    if (step === 7) {
       var fn = document.getElementById('bodVoornaam').value.trim();
       var ln = document.getElementById('bodAchternaam').value.trim();
       var em = document.getElementById('bodEmail').value.trim();
@@ -574,6 +591,7 @@
     params.append('property_condition', document.querySelector('input[name="condition"]:checked').value);
     params.append('selling_reason', document.querySelector('input[name="reason"]:checked').value);
     params.append('selling_timeline', document.querySelector('input[name="timeline"]:checked').value);
+    params.append('minimum_price', document.getElementById('bodMinPrice').value.trim());
     params.append('first_name', document.getElementById('bodVoornaam').value.trim());
     params.append('last_name', document.getElementById('bodAchternaam').value.trim());
     params.append('email', document.getElementById('bodEmail').value.trim());
